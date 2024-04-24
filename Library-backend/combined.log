@@ -1,0 +1,102 @@
+{"endpoint":"/Library","ip":"::1","level":"info","method":"GET","path_parameters":{"0":"Library"},"query":{},"service":"user-service","timestamp":"2024-04-24T14:24:29.478Z"}
+{"endpoint":"/Library","ip":"::1","level":"info","method":"GET","path_parameters":{"0":"Library"},"query":{},"service":"user-service","timestamp":"2024-04-24T14:24:40.383Z"}
+{"endpoint":"/Library","ip":"::1","level":"info","method":"GET","path_parameters":{"0":"Library"},"query":{},"service":"user-service","timestamp":"2024-04-24T14:26:19.878Z"}
+{"endpoint":"/Library","ip":"::1","level":"info","method":"GET","path_parameters":{"0":"Library"},"query":{},"service":"user-service","timestamp":"2024-04-24T14:26:25.801Z"}
+{"endpoint":"/Library","ip":"::1","level":"info","method":"GET","path_parameters":{"0":"Library"},"query":{},"service":"user-service","timestamp":"2024-04-24T14:26:30.703Z"}
+{"endpoint":"/Library","ip":"::1","level":"info","method":"GET","path_parameters":{"0":"Library"},"query":{},"service":"user-service","timestamp":"2024-04-24T14:26:40.100Z"}
+{"endpoint":"/Library","ip":"::1","level":"info","method":"GET","path_parameters":{"0":"Library"},"query":{},"service":"user-service","timestamp":"2024-04-24T14:26:47.945Z"}
+{"endpoint":"/users","ip":"::1","level":"info","method":"GET","path_parameters":{"0":"users"},"query":{},"service":"user-service","timestamp":"2024-04-24T14:32:59.527Z"}
+{"endpoint":"/users/2","ip":"::1","level":"info","method":"GET","path_parameters":{"0":"users/2"},"query":{},"service":"user-service","timestamp":"2024-04-24T14:33:13.516Z"}
+{"endpoint":"/users/1","ip":"::1","level":"info","method":"GET","path_parameters":{"0":"users/1"},"query":{},"service":"user-service","timestamp":"2024-04-24T14:33:17.155Z"}
+{"endpoint":"/Library/3","ip":"::1","level":"info","method":"DELETE","path_parameters":{"0":"Library/3"},"query":{},"service":"user-service","timestamp":"2024-04-24T14:58:45.921Z"}
+{"endpoint":"/Library/3","ip":"::1","level":"info","method":"DELETE","path_parameters":{"0":"Library/3"},"query":{},"service":"user-service","timestamp":"2024-04-24T14:58:51.850Z"}
+{"endpoint":"/Library","ip":"::1","level":"info","method":"DELETE","path_parameters":{"0":"Library"},"query":{},"service":"user-service","timestamp":"2024-04-24T15:08:18.408Z"}
+{"endpoint":"/Library","ip":"::1","level":"info","method":"DELETE","path_parameters":{"0":"Library"},"query":{},"service":"user-service","timestamp":"2024-04-24T15:10:43.153Z"}
+{"endpoint":"/Library","ip":"::1","level":"info","method":"DELETE","path_parameters":{"0":"Library"},"query":{},"service":"user-service","timestamp":"2024-04-24T15:10:44.757Z"}
+{"endpoint":"/Library","ip":"::1","level":"info","method":"DELETE","path_parameters":{"0":"Library"},"query":{},"service":"user-service","timestamp":"2024-04-24T15:11:00.752Z"}
+{"endpoint":"/Library","ip":"::1","level":"info","method":"DELETE","path_parameters":{"0":"Library"},"query":{},"service":"user-service","timestamp":"2024-04-24T15:11:01.525Z"}
+{"endpoint":"/Library","ip":"::1","level":"info","method":"DELETE","path_parameters":{"0":"Library"},"query":{},"service":"user-service","timestamp":"2024-04-24T15:11:06.714Z"}
+{"endpoint":"/Library","ip":"::1","level":"info","method":"DELETE","path_parameters":{"0":"Library"},"query":{},"service":"user-service","timestamp":"2024-04-24T15:13:37.669Z"}
+{"endpoint":"/Library","ip":"::1","level":"info","method":"DELETE","path_parameters":{"0":"Library"},"query":{},"service":"user-service","timestamp":"2024-04-24T15:13:47.383Z"}
+{"endpoint":"/Library","ip":"::1","level":"info","method":"DELETE","path_parameters":{"0":"Library"},"query":{},"service":"user-service","timestamp":"2024-04-24T15:15:56.167Z"}
+{"endpoint":"/library","ip":"::1","level":"info","method":"DELETE","path_parameters":{"0":"library"},"query":{},"service":"user-service","timestamp":"2024-04-24T15:16:11.073Z"}
+{"endpoint":"/library","ip":"::1","level":"info","method":"DELETE","path_parameters":{"0":"library"},"query":{},"service":"user-service","timestamp":"2024-04-24T15:16:11.829Z"}
+{"endpoint":"/library","ip":"::1","level":"info","method":"DELETE","path_parameters":{"0":"library"},"query":{},"service":"user-service","timestamp":"2024-04-24T15:16:26.503Z"}
+{"endpoint":"/library","ip":"::1","level":"info","method":"DELETE","path_parameters":{"0":"library"},"query":{},"service":"user-service","timestamp":"2024-04-24T15:16:27.639Z"}
+{"endpoint":"/library","ip":"::1","level":"info","method":"DELETE","path_parameters":{"0":"library"},"query":{},"service":"user-service","timestamp":"2024-04-24T15:16:27.965Z"}
+{"endpoint":"/library","ip":"::1","level":"info","method":"POST","path_parameters":{"0":"library"},"query":{},"service":"user-service","timestamp":"2024-04-24T15:16:29.257Z"}
+{"endpoint":"/library","ip":"::1","level":"info","method":"DELETE","path_parameters":{"0":"library"},"query":{},"service":"user-service","timestamp":"2024-04-24T15:16:32.125Z"}
+{"endpoint":"/library","ip":"::1","level":"info","method":"DELETE","path_parameters":{"0":"library"},"query":{},"service":"user-service","timestamp":"2024-04-24T15:17:06.693Z"}
+{"endpoint":"/library","ip":"::1","level":"info","method":"GET","path_parameters":{"0":"library"},"query":{},"service":"user-service","timestamp":"2024-04-24T15:17:23.560Z"}
+{"endpoint":"/books","ip":"::1","level":"info","method":"DELETE","path_parameters":{"0":"books"},"query":{},"service":"user-service","timestamp":"2024-04-24T15:42:15.665Z"}
+{"endpoint":"/library/Atomic%20Habits:%20An%20Easy%20and%20Proven%20Way%20to%20Build%20Good%20Habits%20and%20Break%20Bad%20Ones","ip":"::1","level":"info","method":"GET","path_parameters":{"0":"library/Atomic Habits: An Easy and Proven Way to Build Good Habits and Break Bad Ones"},"query":{},"service":"user-service","timestamp":"2024-04-24T15:42:44.805Z"}
+{"endpoint":"/library/","ip":"::1","level":"info","method":"GET","path_parameters":{"0":"library/"},"query":{},"service":"user-service","timestamp":"2024-04-24T15:44:17.900Z"}
+{"endpoint":"/books/Atomic%20Habits","ip":"::1","level":"info","method":"DELETE","path_parameters":{"0":"books/Atomic Habits"},"query":{},"service":"user-service","timestamp":"2024-04-24T15:44:32.208Z"}
+{"endpoint":"/library/","ip":"::1","level":"info","method":"GET","path_parameters":{"0":"library/"},"query":{},"service":"user-service","timestamp":"2024-04-24T15:44:40.792Z"}
+{"endpoint":"/library/","ip":"::1","level":"info","method":"GET","path_parameters":{"0":"library/"},"query":{},"service":"user-service","timestamp":"2024-04-24T15:44:42.401Z"}
+{"endpoint":"/books/AtomicHabits","ip":"::1","level":"info","method":"DELETE","path_parameters":{"0":"books/AtomicHabits"},"query":{},"service":"user-service","timestamp":"2024-04-24T15:45:27.792Z"}
+{"endpoint":"/books/AtomicHabits","ip":"::1","level":"info","method":"DELETE","path_parameters":{"0":"books/AtomicHabits"},"query":{},"service":"user-service","timestamp":"2024-04-24T15:45:29.787Z"}
+{"endpoint":"/books/AtomicHabits","ip":"::1","level":"info","method":"DELETE","path_parameters":{"0":"books/AtomicHabits"},"query":{},"service":"user-service","timestamp":"2024-04-24T15:46:10.939Z"}
+{"endpoint":"/books/Atomic%20Habits:%20An%20Easy%20and%20Proven%20Way%20to%20Build%20Good%20Habits%20and%20Break%20Bad%20Ones","ip":"::1","level":"info","method":"DELETE","path_parameters":{"0":"books/Atomic Habits: An Easy and Proven Way to Build Good Habits and Break Bad Ones"},"query":{},"service":"user-service","timestamp":"2024-04-24T15:47:17.194Z"}
+{"endpoint":"/library/","ip":"::1","level":"info","method":"GET","path_parameters":{"0":"library/"},"query":{},"service":"user-service","timestamp":"2024-04-24T15:47:28.950Z"}
+{"endpoint":"/library/","ip":"::1","level":"info","method":"GET","path_parameters":{"0":"library/"},"query":{},"service":"user-service","timestamp":"2024-04-24T15:49:36.170Z"}
+{"endpoint":"/books/Atomic%20Habits:%20An%20Easy%20and%20Proven%20Way%20to%20Build%20Good%20Habits%20and%20Break%20Bad%20Ones","ip":"::1","level":"info","method":"DELETE","path_parameters":{"0":"books/Atomic Habits: An Easy and Proven Way to Build Good Habits and Break Bad Ones"},"query":{},"service":"user-service","timestamp":"2024-04-24T17:55:33.504Z"}
+{"endpoint":"/books/Atomic%20Habits:%20An%20Easy%20and%20Proven%20Way%20to%20Build%20Good%20Habits%20and%20Break%20Bad%20Ones","ip":"::1","level":"info","method":"DELETE","path_parameters":{"0":"books/Atomic Habits: An Easy and Proven Way to Build Good Habits and Break Bad Ones"},"query":{},"service":"user-service","timestamp":"2024-04-24T17:55:44.213Z"}
+{"endpoint":"/books/Atomic%20Habits:%20An%20Easy%20and%20Proven%20Way%20to%20Build%20Good%20Habits%20and%20Break%20Bad%20Ones","ip":"::1","level":"info","method":"DELETE","path_parameters":{"0":"books/Atomic Habits: An Easy and Proven Way to Build Good Habits and Break Bad Ones"},"query":{},"service":"user-service","timestamp":"2024-04-24T18:00:17.202Z"}
+{"endpoint":"/books/Atomic%20Habits:%20An%20Easy%20and%20Proven%20Way%20to%20Build%20Good%20Habits%20and%20Break%20Bad%20Ones","ip":"::1","level":"info","method":"DELETE","path_parameters":{"0":"books/Atomic Habits: An Easy and Proven Way to Build Good Habits and Break Bad Ones"},"query":{},"service":"user-service","timestamp":"2024-04-24T18:00:32.891Z"}
+{"endpoint":"/books/Atomic%20Habits:%20An%20Easy%20and%20Proven%20Way%20to%20Build%20Good%20Habits%20and%20Break%20Bad%20Ones","ip":"::1","level":"info","method":"DELETE","path_parameters":{"0":"books/Atomic Habits: An Easy and Proven Way to Build Good Habits and Break Bad Ones"},"query":{},"service":"user-service","timestamp":"2024-04-24T18:00:39.299Z"}
+{"endpoint":"/users","ip":"::1","level":"info","method":"GET","path_parameters":{"0":"users"},"query":{},"service":"user-service","timestamp":"2024-04-24T18:26:11.840Z"}
+{"endpoint":"/users","ip":"::1","level":"info","method":"DELETE","path_parameters":{"0":"users"},"query":{},"service":"user-service","timestamp":"2024-04-24T18:27:00.092Z"}
+{"endpoint":"/users/1","ip":"::1","level":"info","method":"DELETE","path_parameters":{"0":"users/1"},"query":{},"service":"user-service","timestamp":"2024-04-24T18:27:07.532Z"}
+{"endpoint":"/users","ip":"::1","level":"info","method":"DELETE","path_parameters":{"0":"users"},"query":{"1":""},"service":"user-service","timestamp":"2024-04-24T18:27:37.692Z"}
+{"endpoint":"/users/2","ip":"::1","level":"info","method":"DELETE","path_parameters":{"0":"users/2"},"query":{},"service":"user-service","timestamp":"2024-04-24T18:27:41.452Z"}
+{"endpoint":"/users/1","ip":"::1","level":"info","method":"DELETE","path_parameters":{"0":"users/1"},"query":{},"service":"user-service","timestamp":"2024-04-24T18:27:43.622Z"}
+{"endpoint":"/users/:2","ip":"::1","level":"info","method":"DELETE","path_parameters":{"0":"users/:2"},"query":{},"service":"user-service","timestamp":"2024-04-24T18:33:15.651Z"}
+{"endpoint":"/users/:2","ip":"::1","level":"info","method":"DELETE","path_parameters":{"0":"users/:2"},"query":{},"service":"user-service","timestamp":"2024-04-24T18:33:18.381Z"}
+{"endpoint":"/users/:1","ip":"::1","level":"info","method":"DELETE","path_parameters":{"0":"users/:1"},"query":{},"service":"user-service","timestamp":"2024-04-24T18:33:21.220Z"}
+{"endpoint":"/users/:1","ip":"::1","level":"info","method":"DELETE","path_parameters":{"0":"users/:1"},"query":{},"service":"user-service","timestamp":"2024-04-24T18:33:22.754Z"}
+{"endpoint":"/users/:1","ip":"::1","level":"info","method":"DELETE","path_parameters":{"0":"users/:1"},"query":{},"service":"user-service","timestamp":"2024-04-24T18:33:58.767Z"}
+{"endpoint":"/users/:1","ip":"::1","level":"info","method":"DELETE","path_parameters":{"0":"users/:1"},"query":{},"service":"user-service","timestamp":"2024-04-24T18:34:04.948Z"}
+{"endpoint":"/users;1","ip":"::1","level":"info","method":"DELETE","path_parameters":{"0":"users;1"},"query":{},"service":"user-service","timestamp":"2024-04-24T18:34:09.205Z"}
+{"endpoint":"/users:1","ip":"::1","level":"info","method":"DELETE","path_parameters":{"0":"users:1"},"query":{},"service":"user-service","timestamp":"2024-04-24T18:34:12.180Z"}
+{"endpoint":"/users/:1","ip":"::1","level":"info","method":"DELETE","path_parameters":{"0":"users/:1"},"query":{},"service":"user-service","timestamp":"2024-04-24T18:34:15.922Z"}
+{"endpoint":"/users/3","ip":"::1","level":"info","method":"DELETE","path_parameters":{"0":"users/3"},"query":{},"service":"user-service","timestamp":"2024-04-24T18:43:20.238Z"}
+{"endpoint":"/users=2","ip":"::1","level":"info","method":"DELETE","path_parameters":{"0":"users=2"},"query":{},"service":"user-service","timestamp":"2024-04-24T18:43:29.732Z"}
+{"endpoint":"/usdsdscdscdscdscdscsdc","ip":"::1","level":"info","method":"DELETE","path_parameters":{"0":"usdsdscdscdscdscdscsdc"},"query":{},"service":"user-service","timestamp":"2024-04-24T18:43:36.593Z"}
+{"endpoint":"/usdsdscdscdscdscdscsdc","ip":"::1","level":"info","method":"DELETE","path_parameters":{"0":"usdsdscdscdscdscdscsdc"},"query":{},"service":"user-service","timestamp":"2024-04-24T18:43:37.372Z"}
+{"endpoint":"/users/","ip":"::1","level":"info","method":"DELETE","path_parameters":{"0":"users/"},"query":{"2":""},"service":"user-service","timestamp":"2024-04-24T18:43:48.714Z"}
+{"endpoint":"/users/2","ip":"::1","level":"info","method":"DELETE","path_parameters":{"0":"users/2"},"query":{},"service":"user-service","timestamp":"2024-04-24T18:43:53.224Z"}
+{"endpoint":"/books/Atomic%20Habits:%20An%20Easy%20and%20Proven%20Way%20to%20Build%20Good%20Habits%20and%20Break%20Bad%20Ones","ip":"::1","level":"info","method":"DELETE","path_parameters":{"0":"books/Atomic Habits: An Easy and Proven Way to Build Good Habits and Break Bad Ones"},"query":{},"service":"user-service","timestamp":"2024-04-24T18:47:53.312Z"}
+{"endpoint":"/books/Atomic%20Habits:%20An%20Easy%20and%20Proven%20Way%20to%20Build%20Good%20Habits%20and%20Break%20Bad%20Ones","ip":"::1","level":"info","method":"DELETE","path_parameters":{"0":"books/Atomic Habits: An Easy and Proven Way to Build Good Habits and Break Bad Ones"},"query":{},"service":"user-service","timestamp":"2024-04-24T18:47:55.570Z"}
+{"endpoint":"/users/2","ip":"::1","level":"info","method":"GET","path_parameters":{"0":"users/2"},"query":{},"service":"user-service","timestamp":"2024-04-24T18:50:51.593Z"}
+{"endpoint":"/users/1","ip":"::1","level":"info","method":"GET","path_parameters":{"0":"users/1"},"query":{},"service":"user-service","timestamp":"2024-04-24T18:50:54.954Z"}
+{"endpoint":"/users/2","ip":"::1","level":"info","method":"GET","path_parameters":{"0":"users/2"},"query":{},"service":"user-service","timestamp":"2024-04-24T18:50:56.403Z"}
+{"endpoint":"/users","ip":"::1","level":"info","method":"GET","path_parameters":{"0":"users"},"query":{"2":""},"service":"user-service","timestamp":"2024-04-24T18:50:59.791Z"}
+{"endpoint":"/users","ip":"::1","level":"info","method":"GET","path_parameters":{"0":"users"},"query":{},"service":"user-service","timestamp":"2024-04-24T18:51:08.205Z"}
+{"endpoint":"/users","ip":"::1","level":"info","method":"GET","path_parameters":{"0":"users"},"query":{"2":""},"service":"user-service","timestamp":"2024-04-24T18:51:17.226Z"}
+{"endpoint":"/users","ip":"::1","level":"info","method":"GET","path_parameters":{"0":"users"},"query":{"/2":""},"service":"user-service","timestamp":"2024-04-24T18:51:24.777Z"}
+{"endpoint":"/users/3","ip":"::1","level":"info","method":"GET","path_parameters":{"0":"users/3"},"query":{},"service":"user-service","timestamp":"2024-04-24T18:51:33.087Z"}
+{"endpoint":"/users/3","ip":"::1","level":"info","method":"GET","path_parameters":{"0":"users/3"},"query":{},"service":"user-service","timestamp":"2024-04-24T18:52:00.368Z"}
+{"endpoint":"/users/3","ip":"::1","level":"info","method":"GET","path_parameters":{"0":"users/3"},"query":{},"service":"user-service","timestamp":"2024-04-24T18:56:58.859Z"}
+{"endpoint":"/users","ip":"::1","level":"info","method":"GET","path_parameters":{"0":"users"},"query":{},"service":"user-service","timestamp":"2024-04-24T18:57:02.013Z"}
+{"endpoint":"/2","ip":"::1","level":"info","method":"DELETE","path_parameters":{"0":"2"},"query":{},"service":"user-service","timestamp":"2024-04-24T18:57:21.900Z"}
+{"endpoint":"/3","ip":"::1","level":"info","method":"DELETE","path_parameters":{"0":"3"},"query":{},"service":"user-service","timestamp":"2024-04-24T18:57:24.560Z"}
+{"endpoint":"/3","ip":"::1","level":"info","method":"GET","path_parameters":{"0":"3"},"query":{},"service":"user-service","timestamp":"2024-04-24T19:13:36.501Z"}
+{"endpoint":"/3","ip":"::1","level":"info","method":"GET","path_parameters":{"0":"3"},"query":{},"service":"user-service","timestamp":"2024-04-24T19:13:37.595Z"}
+{"endpoint":"/users/3","ip":"::1","level":"info","method":"GET","path_parameters":{"0":"users/3"},"query":{},"service":"user-service","timestamp":"2024-04-24T19:13:48.358Z"}
+{"endpoint":"/user/3","ip":"::1","level":"info","method":"GET","path_parameters":{"0":"user/3"},"query":{},"service":"user-service","timestamp":"2024-04-24T19:13:50.959Z"}
+{"endpoint":"/users/3","ip":"::1","level":"info","method":"GET","path_parameters":{"0":"users/3"},"query":{},"service":"user-service","timestamp":"2024-04-24T19:13:52.713Z"}
+{"endpoint":"/users/","ip":"::1","level":"info","method":"GET","path_parameters":{"0":"users/"},"query":{},"service":"user-service","timestamp":"2024-04-24T19:13:55.705Z"}
+{"endpoint":"/users/3","ip":"::1","level":"info","method":"DELETE","path_parameters":{"0":"users/3"},"query":{},"service":"user-service","timestamp":"2024-04-24T19:14:06.060Z"}
+{"endpoint":"/users","ip":"::1","level":"info","method":"GET","path_parameters":{"0":"users"},"query":{},"service":"user-service","timestamp":"2024-04-24T19:14:14.821Z"}
+{"endpoint":"/quotes","ip":"::1","level":"info","method":"GET","path_parameters":{"0":"quotes"},"query":{},"service":"user-service","timestamp":"2024-04-24T19:21:03.092Z"}
+{"endpoint":"/quotes/1001010","ip":"::1","level":"info","method":"DELETE","path_parameters":{"0":"quotes/1001010"},"query":{},"service":"user-service","timestamp":"2024-04-24T19:21:47.761Z"}
+{"endpoint":"/quotes/1001010","ip":"::1","level":"info","method":"GET","path_parameters":{"0":"quotes/1001010"},"query":{},"service":"user-service","timestamp":"2024-04-24T19:22:11.541Z"}
+{"endpoint":"/quotes","ip":"::1","level":"info","method":"GET","path_parameters":{"0":"quotes"},"query":{},"service":"user-service","timestamp":"2024-04-24T19:22:33.412Z"}
+{"endpoint":"/quotes","ip":"::1","level":"info","method":"GET","path_parameters":{"0":"quotes"},"query":{},"service":"user-service","timestamp":"2024-04-24T19:28:48.354Z"}
+{"endpoint":"/quotes/1","ip":"::1","level":"info","method":"DELETE","path_parameters":{"0":"quotes/1"},"query":{},"service":"user-service","timestamp":"2024-04-24T19:37:44.796Z"}
+{"endpoint":"/quotes","ip":"::1","level":"info","method":"GET","path_parameters":{"0":"quotes"},"query":{},"service":"user-service","timestamp":"2024-04-24T19:37:49.769Z"}
+{"endpoint":"/quotes/gfhfudsijdf","ip":"::1","level":"info","method":"DELETE","path_parameters":{"0":"quotes/gfhfudsijdf"},"query":{},"service":"user-service","timestamp":"2024-04-24T19:37:57.246Z"}
+{"endpoint":"/quotes/|%7B]","ip":"::1","level":"info","method":"DELETE","path_parameters":{"0":"quotes/|{]"},"query":{},"service":"user-service","timestamp":"2024-04-24T19:38:12.659Z"}
+{"endpoint":"/quotes/","ip":"::1","level":"info","method":"DELETE","path_parameters":{"0":"quotes/"},"query":{},"service":"user-service","timestamp":"2024-04-24T19:38:29.053Z"}
+{"endpoint":"/quotes/","ip":"::1","level":"info","method":"DELETE","path_parameters":{"0":"quotes/"},"query":{},"service":"user-service","timestamp":"2024-04-24T19:38:29.908Z"}
