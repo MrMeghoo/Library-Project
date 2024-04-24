@@ -1,0 +1,16 @@
+var swiper = new Swiper(".mySwiper", {
+    slidesPerView: 4,
+    centeredSlides: true,
+    spaceBetween: 30,
+    slidesPerGroup: 4,
+    
+    pagination: {
+      el: ".swiper-pagination",
+      type: "fraction",
+    },
+    navigation: {
+      nextEl: ".swiper-button-next",
+      prevEl: ".swiper-button-prev",
+    },
+})
+
