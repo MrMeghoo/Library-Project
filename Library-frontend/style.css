@@ -1,0 +1,92 @@
+body{background-color: #F7F7F7;
+    color: white;font-family: sans-serif;}
+    
+    /* ------header------ */
+    h1{margin-left:85px;font-weight:bold;;font-size: 40px;}
+    .header>h1{color: black;
+    font-family: sans-serif;
+    font-size: 45px;width: 35%;position: relative;left: 32.5%}
+    .header>img{height: 37px;margin: 20px 20px;}
+    /* -------body-------- */
+    .body{display: flex;
+        justify-content:center; flex-direction: column;
+    position: absolute;left: 40%; width: 60%;}
+    #or{text-align: center;font-size: 13px;padding: 10px;}
+    /* form button */
+    input{width:25%;background-color:white;border:1px solid gray;height:40px;margin-top:10px;
+    border-radius: 5px;color: black;outline: white;font-size: 16px;padding: 6px;margin-bottom: 10px;}
+    input:hover{border: 1px solid black;}
+    label{font-weight: bold;font-size: 14px;color: black;}
+    button{color: blac;}
+    ::placeholder{color: #a7a7a7;font-size:15px;padding: 10px;font-weight:525;}
+    .btn-outline-light{
+        width: 12.5%;
+        position: relative;left: 6%;
+        color: black;
+        background-color: white;
+        border: 2px solid #a7a7a7;
+        
+    }
+    /* NAME */
+    .name>form{
+    width: 70%;
+    }
+    .name{
+     position: relative; left: 38.5%; 
+     color: black;
+    }
+    /* NAV BAR */
+    .container-fluid{
+        background-color:#F7F7F7;
+        border: 2px solid black;
+        display: flex;
+        justify-content: space-around;
+    }
+.topContainer{
+    display: flex;
+    /* background-color: black; */
+    /* width: 50%; */
+    justify-content: space-around;
+
+
+/* Swiper */
+}
+.swiper {
+    width: 60%;
+    height: 35%;
+  }
+
+  .swiper-slide {
+    text-align: center;
+    font-size: 18px;
+    background: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 90%;
+  }
+
+  .swiper-slide img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  html,
+  body {
+    position: relative;
+    height: 100%;
+  }
+
+  body {
+    background: #eee;
+    font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    color: #000;
+    margin: 0;
+    padding: 0;
+  }
+  h2{
+ font-family: 'Times New Roman', Times, serif;
+  }
+    
