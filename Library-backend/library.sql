@@ -26,16 +26,16 @@ VALUES
 
 CREATE TABLE users (
     id SERIAL PRIMARY KEY,
-    email VARCHAR (50),
-    firstName VARCHAR (50),
-    lastName VARCHAR (50),
-    age INTEGER,
-    administrator BOOLEAN,
-    blackList BOOLEAN,
-    image VARCHAR(200)
+    email VARCHAR (50) NOT NULL,
+    firstName VARCHAR (50) NOT NULL,
+    lastName VARCHAR (50) NOT NULL,
+    age INTEGER NOT NULL,
+    administrator BOOLEAN NOT NULL,
+    blackList BOOLEAN NOT NULL,
+    image VARCHAR(200) NULL
 );
 INSERT INTO users 
-(email, firstName, lastName, age, administrator, blackList, image);
+(email, firstName, lastName, age, administrator, blackList, image)
 VALUES 
 ('estradagabe1996@gmail.com', 'Gabe', 'Estrada', 27, TRUE, FALSE, null), 
 ('diddy@gmail.com', 'Sean', 'Combs', 54, FALSE, TRUE, null);
@@ -45,11 +45,12 @@ CREATE TABLE quotes (
     quote VARCHAR (250),
     author VARCHAR (50),
     book VARCHAR (100)
-)
-INSERT INTO quotes (quotes, author, book)
+);
+
+INSERT INTO quotes (quote, author, book)
 VALUES
-("There is some good in this world, and it’s worth fighting for.", 'J.R.R. Tolkien', 'The Two Towers'),
-("Beware; for I am fearless, and therefore powerful.", "Mary Shelley", "Frankenstein"),
-(`Why did you do all this for me?’ he asked. ‘I don’t deserve it. I’ve never done anything for you.’ ‘You have been my friend,’ replied Charlotte. ‘That in itself is a tremendous thing", "Mary Shelley"`, "E.B. White", "Charlotte’s Web");
+('There is some good in this world, and it''s worth fighting for.', 'J.R.R. Tolkien', 'The Two Towers'),
+('Beware; for I am fearless, and therefore powerful.', 'Mary Shelley', 'Frankenstein'),
+('"Why did you do all this for me?" he asked. "I don''t deserve it. I''ve never done anything for you." "You have been my friend," replied Charlotte. "That in itself is a tremendous thing, Mary Shelley"', 'E.B. White', 'Charlotte''s Web');
 
 

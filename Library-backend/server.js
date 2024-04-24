@@ -1,3 +1,4 @@
+const { kMaxLength } = require('buffer');
 const express = require('express')
 const pgp = require('pg-promise')();
 const winston = require('winston')
@@ -5,6 +6,10 @@ const winston = require('winston')
 
 const app = express()
 const db = pgp('postgres://avdxxhsq:Ngu7xpaEW3m4SGx0lWBeOln7iq_WErpE@ziggy.db.elephantsql.com/avdxxhsq')
+
+app.use(express.json());
+
+
 const logger = winston.createLogger({
     level: 'info',
     format: winston.format.json(),
@@ -91,6 +96,10 @@ app.get('/library', async function(req,res){
 
     
 })
+app.get('/quotes', async function(req,res){
+    let allQuotes = await db.many('SELECT * FROM quotes');
+    res.json(allQuotes);
+})
 
 
 
@@ -99,17 +108,83 @@ app.post('/library', async function(req,res){
     //take reference from todo and pokemon project CRUD API's.
     //Check if there is not anything in the body of the request.
     //Check to see if the inputed tex in the requests body is not a object.
-    // Check if email, firstName, lastName, age, administrator, blackList, image are in the body.
+    //Check if email, firstName, lastName, age, administrator, blackList, image are in the body.
     //Check to see if email, First name, Last name, are a string, if age is a number, if blacklist and administrator is a boolean and if image is a string which will allow it to be null as well.
-    
-    
-    
-    //define  2 regex to check to check if one eamil is letters numbers and a @ symbol. Two if first name and last name are letters. 
-    // Error check image to ensure that only image can be inserted.
+    //if nothing is in the req.body or if type of request in the body is not a object or if email is not in the body and if  email is not a string 
+    console.log(req.body)
+    if(!req.body||typeof req.body !== 'object'||!('email' in req.body||!(typeof req.body.email !== 'string'||(!'firstName' in req.body||!(typeof req.body.firstName !== 'string'||!('lastName' in req.body|| !(typeof req.body.lastName !== 'string'||!('age' in req.body||!(typeof req.body.age !== 'number'||!('administrator' in req.body|| !(typeof req.body.administrator !== 'boolean'||!('blacklist' in req.body||!(typeof req.body.blacklist !== 'boolean'||!('image' in req.body||!(typeof req.body.image !== 'string'))))))))))))))){
+        console.log(req.body)
+        clientError(req, "Missing Sign up Information", 400)
+        res.statusCode = 400
+        res.json({error: "Missing Sign up Information"})
+    }else{
+        //define  2 regex to check to check if one eamil is letters numbers and a @ symbol. Two if first name and last name are letters. 
+        // Error check image to ensure that only image can be inserted.
+        //reg ex to validate first and last Names
+        let regexName = /^[a-zA-Z\s]+$/ ;
+        //regex expression to validate user email
+        let regexeamil = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+        //validate image to with a limit to a min and max amount of characters
+        // let image = req.body.image.substring(10,200);
+        //This is the error checking that checks all requrired body parameters in the request for the correct format
+        if(req.body.email === null){
+            clientError(req, "Email must be provided", 400)
+            res.statusCode = 400
+            res.json({error: "Email must be provided"})
+        }else if(!regexeamil.test(req.body.email)){
+            clientError(req, "Incorrect email format", 400)
+            res.statusCode = 400
+            res.json({error: "Incorrect email format"})
+        }else if(req.body.firstName === null){
+            clientError(req, "Please provide First Name", 400)
+            res.statusCode = 400
+            res.json({error: "Please provide First Name"})
+        }else if(!regexName.test(req.body.firstName)){
+            clientError(req, "Please Insert First Name", 400)
+            res.statusCode = 400
+            res.json({error: "Please insert First Name"})
+        }else if(req.body.lastName === null){
+            clientError(req, "Please Insert Last Name", 400)
+            res.statusCode = 400
+            res.json({error: "Please Insert Last Name"})
+        }else if(!regexName.test(req.body.lastName)){
+            clientError(req, "Please Insert Last Name", 400)
+            res.statusCode = 400
+            res.json({error: "Please insert Last Name"})
+        }else if(req.body.age === null){
+            clientError(req, "Please provide age", 400)
+            res.statusCode = 400
+            res.json({error: "Please provide Age"})
+        }else if(req.body.administrator === null){
+            clientError(req, "Please specify role", 400)
+            res.statusCode = 400
+            res.json({error: "Please specify role"})
+        }else if(req.body.blacklist === null){
+            clientError(req, "Blacklist error has occured", 400)
+            res.statusCode = 400
+            res.json({error: "Blacklist error has occured"})
+        }else{
+            // if no errors are found This is where the code to post the information will be go.
+            console.log(req.body)
+            //Define a object with all required fields for the req.body
+            const  {
+                email,
+                firstName,
+                lastName,
+                age,
+                administrator,
+                blacklist,
+                image
+            } = req.body
 
-    // if no errors are found This is where the code to post the information will be go.
+            let userInfo = await db.query('INSERT INTO users(email,firstName,lastName,age,administrator,blacklist,image) VALUES($1,$2,$3,$4,$5,$6,$7) RETURNING *', [email,firstName,lastName,age,administrator,blacklist,image]);
+            res.json(userInfo)
+        }
     
-
+    }
+    
+    
+    
 
 
 
@@ -122,6 +197,7 @@ app.post('/library',async function(req,res){
     //Check to see if the inputed tex in the requests body is not a object.
     //Check if the name, author, yearPublished, genre, checkedout, and image are in the requested body thats being posted.
     //Check to ensure name, author, and genre and image are a string which will allow image to be null as well. Chech if checkedout is a boolean and that year published is a number.
+
 
     //Define a regex to ensure name, author, and genre and image are letters only.
     //create error checking to ensure that only a image can be inserted into image.
