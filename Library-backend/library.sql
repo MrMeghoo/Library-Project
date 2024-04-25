@@ -6,8 +6,8 @@ CREATE TABLE bookInventory (
     yearPublished INTEGER,
     genre TEXT [],
     checkedOut BOOLEAN,
-    image VARCHAR(200)
-);
+    image VARCHAR(200));
+
 
 INSERT INTO bookInventory (
     name,
@@ -15,8 +15,9 @@ INSERT INTO bookInventory (
     yearPublished,
     genre,
     checkedOut,
-    image
-)
+    image);
+
+
 VALUES 
 ('Atomic Habits: An Easy and Proven Way to Build Good Habits and Break Bad Ones', 'James Clear', 2018, '{"Self-help book"}', FALSE, 'https://upload.wikimedia.org/wikipedia/commons/0/06/Atomic_habits.jpg'),
 ('Harry Potter and the Sorcerer''s Stone', 'J. K. Rowling', 1997, '{"Novel", "Fantasy Fiction", "High fantasy"}', FALSE, 'https://media.harrypotterfanzone.com/sorcerers-stone-us-childrens-edition.jpg'),
@@ -44,6 +45,7 @@ INSERT INTO users
 VALUES 
 ('estradagabe1996@gmail.com', 'Gabe', 'Estrada', 27, TRUE, FALSE, null), 
 ('diddy@gmail.com', 'Sean', 'Combs', 54, FALSE, TRUE, null);
+
 
 CREATE TABLE quotes (
     id SERIAL PRIMARY KEY,
