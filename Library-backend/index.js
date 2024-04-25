@@ -46,12 +46,19 @@ app.all('/*', (req, res, next)=>{
     next()
 })
 
+    app.get('/library', async function(req,res){
+        let allBooks = await db.many('SELECT * FROM bookInventory');
+        res.json(allBooks);
 
-app.get('/library', async function(req,res){
-    console.log(req.query)
-
-    const getkeys = Object.keys(req.query)
-
+    })
+    app.get('/users', async function(req,res){
+        let allUsers = await db.many('SELECT * FROM users');
+        res.json(allUsers);
+    })
+    app.get('/quotes', async function(req,res){
+        let allQuotes = await db.many('SELECT * FROM quotes');
+        res.json(allQuotes);
+    })
     //Check to make sure that only name and catagory can be used as a query here. If anything other than that is inputed send back a 400 error code.
     
     
@@ -68,7 +75,7 @@ app.get('/library', async function(req,res){
 
 
     
-})
+
 
 //User info Account creation Post
 app.post('/library', async function(req,res){
@@ -139,28 +146,69 @@ app.patch('library/:name', async function(req,res){
     //if no errors were found continue with the code that will update the database with the correct fields.
 
 })
+// Book deletion endpoint
+app.delete('/books/:name', async function(req, res){
+    const name = req.params.name;
 
-//User info delete endpoint
-app.delete('/library/:id', async function(req,res){
-    //take reference from both todo and pokemon project CRUD API's.
-    //Check to ensure a body is not in the request.
+    if (!name) {
+        return res.status(400).json({ message: 'Name parameter is required' });
+    }
+    try {
+        const result = await db.result('DELETE FROM bookInventory WHERE name LIKE $1', [name]);
+        if (result.rowCount === 0) {
+            return res.status(404).json({ message: 'Book not found' });
+        }
+        
+    res.status(200).json({ message: 'Book deleted successfully' });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Internal Server Error' });
+    }
+});
 
-    //if a id that does not yet exist is inserted as a query send back a 400 in responce.
 
-    //if no errors are found continue with the code to delete a users account from the database.
-    
-})
+//User info delete endpoint by ID
+app.delete('/users/:id', async function(req, res){
+    const userId = req.params.id;
 
-app.delete('/library/:name', async function(req,res){
-    //take reference from both todo and pokemon project CRUD API's.
-    //Check to ensure a body is not in the request.
+    if (!userId) {
+        return res.status(400).json({ message: 'ID parameter is required' });
+    }
 
-    //if a name of a book is inserted that is not yet in the database send back a 400 in responce.
+    try {
+        // Check if user exists
+        const checkUser = await db.oneOrNone('SELECT id FROM users WHERE id = $1', [userId]);
+        
+        if (!checkUser) {
+            return res.status(404).json({ message: 'User not found' });
+        }
 
-    //if no errors are found continue with the code to delete a book from the database.
+        // Delete user
+        await db.result('DELETE FROM users WHERE id = $1', [userId]);
+        
+        res.status(200).json({ message: 'User deleted successfully' });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Internal Server Error' });
+    }
+});
 
-})
+app.delete('/quotes/:id', async function(req, res){
+    const quoteId = req.params.id;
 
+    if (!quoteId) {
+        return res.status(400).json({ message: 'ID parameter is required' });
+    }
+
+    try {
+        await db.result('DELETE FROM quotes WHERE id = $1', [quoteId]);
+        
+        res.status(200).json({ message: 'Quote deleted successfully' });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Internal Server Error' });
+    }
+});
 
 app.listen(3000, ()=> {
     console.log("Server is running on port 3000");

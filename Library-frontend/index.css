@@ -45,7 +45,6 @@ text-align: center;
 }
 
 
-
 .login {
   text-align: center;
   font-size: 14px;
@@ -73,15 +72,13 @@ text-align: center;
   transition: opacity ease 0.5s;
 }
 
-
-
-=======
 body{background-color: #F7F7F7;
+
     color: white;font-family: sans-serif;}
     
     /* ------header------ */
     h1{margin-left:85px;font-weight:bold;;font-size: 40px;}
-    .header>h1{color: black;
+    .header>h1{color: white;
     font-family: sans-serif;
     font-size: 45px;width: 35%;position: relative;left: 32.5%}
     .header>img{height: 37px;margin: 20px 20px;}
@@ -94,15 +91,13 @@ body{background-color: #F7F7F7;
     input{width:25%;background-color:white;border:1px solid gray;height:40px;margin-top:10px;
     border-radius: 5px;color: black;outline: white;font-size: 16px;padding: 6px;margin-bottom: 10px;}
     input:hover{border: 1px solid black;}
-    label{font-weight: bold;font-size: 14px;color: black;}
-    button{color: blac;}
+    label{font-weight: bold;font-size: 14px;}
+    button{color: white;}
     ::placeholder{color: #a7a7a7;font-size:15px;padding: 10px;font-weight:525;}
     .btn-outline-light{
         width: 12.5%;
         position: relative;left: 6%;
         color: black;
-        background-color: white;
-        border: 2px solid #a7a7a7;
         
     }
     /* NAME */
@@ -111,15 +106,11 @@ body{background-color: #F7F7F7;
     }
     .name{
      position: relative; left: 38.5%; 
-     color: black;
     }
-    /* NAV BAR */
     .container-fluid{
-        background-color:#F7F7F7;
-        border: 2px solid black;
-        display: flex;
-        justify-content: space-around;
+        background-color:lightblue;
     }
+
 .topContainer{
     display: flex;
     /* background-color: black; */
@@ -167,3 +158,4 @@ body{background-color: #F7F7F7;
   h2{
  font-family: 'Times New Roman', Times, serif;
   }
+
