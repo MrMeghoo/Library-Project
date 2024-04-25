@@ -5,6 +5,14 @@ const winston = require('winston')
 
 const app = express()
 const db = pgp('postgres://avdxxhsq:Ngu7xpaEW3m4SGx0lWBeOln7iq_WErpE@ziggy.db.elephantsql.com/avdxxhsq')
+const path = require('path');
+const bcrypt = require('bcrypt');
+const { name } = require('ejs');
+app.use(express.static(path.join(__dirname,'../Library-frontend')))
+app.use(express.json());
+app.use(express.urlencoded({ extended: true}));
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname,'views'));
 const logger = winston.createLogger({
     level: 'info',
     format: winston.format.json(),
@@ -16,6 +24,13 @@ const logger = winston.createLogger({
       new winston.transports.File({ filename: 'combined.log' }),
     ],
 });
+
+function noBody(){
+    if (Object.keys(req.body).length !== 0) {
+        clientError(req, "Request body is not permitted", 400);
+        return res.status(400).json({ error: "Request body is not permitted" });
+    }
+}
 
 function clientError(req, message, errorCode){
     logger.log({
@@ -46,50 +61,74 @@ app.all('/*', (req, res, next)=>{
     next()
 })
 
+app.get('/library/login', async function(req,res){
+    if(Object.keys(req.body).length != 0) {
+        clientError(req, "Request body is not permitted", 400);
+        // check if a body was provided in the request
+        res.status(400).json({
+            error: "Request body is not permitted"
+        });
+        try{
+    res.render("login.ejs")
+        }catch(e){
+            console.log(e)
+            res.status(500).json({msg:'Internal Server error'})
+        }
+    }
 
-app.get('/library', async function(req,res){
-    console.log(req.query)
+})
 
-    const getkeys = Object.keys(req.query)
-
-    //Check to make sure that only name and catagory can be used as a query here. If anything other than that is inputed send back a 400 error code.
-    
-    
-    //Check to see if there is a body being inputed. If there is send back a 400 error. 
-    //Then if there is not a body check the length of the query to ensure that only one query can be used at a time.
-    
-    //then if neither name or catagory and query is undefined in the query return all books in the library in json format.
-    //then check to ensure that the query being put in is not a number or any dashes or slashes or any of the other puctuation junctions.
-    //using Regex expression
-
-    //define a varible with a empty object to hold the responce if nothing is found it wil stay a empty object.
-
-    //This is where the SQL commands will go to get the information from the database that is specified in the query after the error checking.
-
-
-    
+app.get('/library/signup', async function(req,res){
+    res.render("signup.ejs")
 })
 
 //User info Account creation Post
-app.post('/library', async function(req,res){
-    //take reference from todo and pokemon project CRUD API's.
-    //Check if there is not anything in the body of the request.
-    //Check to see if the inputed tex in the requests body is not a object.
-    // Check if email, firstName, lastName, age, administrator, blackList, image are in the body.
-    //Check to see if email, First name, Last name, are a string, if age is a number, if blacklist and administrator is a boolean and if image is a string which will allow it to be null as well.
-    
-    
-    
-    //define  2 regex to check to check if one eamil is letters numbers and a @ symbol. Two if first name and last name are letters. 
-    // Error check image to ensure that only image can be inserted.
-
-    // if no errors are found This is where the code to post the information will be go.
-    
-
-
-
-
+app.post('/library/signup', async function(req,res){
+    const regex = /^[a-zA-Z0-9/,:.@ ]+$/;
+    let obj = req.body;
+    console.log(obj)
+    let arr = [...Object.values(obj)];
+    console.log(arr)
+    if (!arr.every((item) => regex.test(item))) {
+      // checks if any special characters were used
+      clientError(req, "Body does not meet requirements", 400);
+      return res.status(400).json({ msg: "Body Does not meet requirements" });
+    }
+    const hashtedPassword = await bcrypt.hash(req.body.password,10)
+let {email, firstName, lastName, password} = req.body;
+if(!email||!firstName||!lastName||!password){
+    res.status(400).json({msg:'Invalid fields'})
+}
+try{
+await db.none("INSERT INTO users (email, firstName, lastName, password) VALUES ($1, $2, $3, $4)",
+[email, firstName, lastName, hashtedPassword])
+res.redirect("/library/login")
+}catch(e){
+console.log(e)
+}
 })
+
+app.post('/library/login', async function(req, res) {
+    const { email, password } = req.body;
+    try {
+        const user = await db.oneOrNone('SELECT * FROM users WHERE email = $1', [email]);
+        if (user) {
+            const match = await bcrypt.compare(password, user.password);
+            if (match) {
+                res.send('Login Successful');
+            } else {
+                res.status(401).send('Invalid Credentials');
+            }
+        } else {
+            res.status(401).send('Invalid Credentials');
+        }
+    } catch (error) {
+        console.error('Login error:', error);
+        res.status(500).send('Internal Server Error');
+    }
+});
+
+
 
 //Book request post
 app.post('/library',async function(req,res){

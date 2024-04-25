@@ -29,13 +29,14 @@ CREATE TABLE users (
     email VARCHAR (50),
     firstName VARCHAR (50),
     lastName VARCHAR (50),
+    password VARCHAR (250),
     age INTEGER,
     administrator BOOLEAN,
     blackList BOOLEAN,
     image VARCHAR(200)
 );
 INSERT INTO users 
-(email, firstName, lastName, age, administrator, blackList, image);
+(email, firstName, lastName, age, administrator, blackList, image)
 VALUES 
 ('estradagabe1996@gmail.com', 'Gabe', 'Estrada', 27, TRUE, FALSE, null), 
 ('diddy@gmail.com', 'Sean', 'Combs', 54, FALSE, TRUE, null);
