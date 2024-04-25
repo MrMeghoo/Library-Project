@@ -112,7 +112,7 @@ app.post('/library', async function(req,res){
     //Check to see if email, First name, Last name, are a string, if age is a number, if blacklist and administrator is a boolean and if image is a string which will allow it to be null as well.
     //if nothing is in the req.body or if type of request in the body is not a object or if email is not in the body and if  email is not a string 
     console.log(req.body)
-    if(!req.body||typeof req.body !== 'object'||!('email' in req.body||!(typeof req.body.email !== 'string'||(!'firstName' in req.body||!(typeof req.body.firstName !== 'string'||!('lastName' in req.body|| !(typeof req.body.lastName !== 'string'||!('age' in req.body||!(typeof req.body.age !== 'number'||!('administrator' in req.body|| !(typeof req.body.administrator !== 'boolean'||!('blacklist' in req.body||!(typeof req.body.blacklist !== 'boolean'||!('image' in req.body||!(typeof req.body.image !== 'string'))))))))))))))){
+    if(!req.body||typeof req.body !== 'object'||!('email' in req.body||!(typeof req.body.email !== 'string'||!('firstName' in req.body||!(typeof req.body.firstName !== 'string'||!('lastName' in req.body|| !(typeof req.body.lastName !== 'string'||!('age' in req.body||!(typeof req.body.age !== 'number'||!('administrator' in req.body|| !(typeof req.body.administrator !== 'boolean'||!('blackList' in req.body||!(typeof req.body.blackList !== 'boolean'||!('image' in req.body||!(typeof req.body.image !== 'string'))))))))))))))){
         console.log(req.body)
         clientError(req, "Missing Sign up Information", 400)
         res.statusCode = 400
@@ -159,7 +159,7 @@ app.post('/library', async function(req,res){
             clientError(req, "Please specify role", 400)
             res.statusCode = 400
             res.json({error: "Please specify role"})
-        }else if(req.body.blacklist === null){
+        }else if(req.body.blackList === null){
             clientError(req, "Blacklist error has occured", 400)
             res.statusCode = 400
             res.json({error: "Blacklist error has occured"})
@@ -173,11 +173,11 @@ app.post('/library', async function(req,res){
                 lastName,
                 age,
                 administrator,
-                blacklist,
+                blackList,
                 image
             } = req.body
 
-            let userInfo = await db.query('INSERT INTO users(email,firstName,lastName,age,administrator,blacklist,image) VALUES($1,$2,$3,$4,$5,$6,$7) RETURNING *', [email,firstName,lastName,age,administrator,blacklist,image]);
+            let userInfo = await db.query('INSERT INTO users(email,firstName,lastName,age,administrator,blackList,image) VALUES($1,$2,$3,$4,$5,$6,$7) RETURNING *', [email,firstName,lastName,age,administrator,blackList,image]);
             res.json(userInfo)
         }
     
@@ -191,46 +191,154 @@ app.post('/library', async function(req,res){
 })
 
 //Book request post
-app.post('/library',async function(req,res){
+app.post('/books',async function(req,res){
     //take reference from todo and pokemon project CRUD API's.
     //Check if there is not anything in the body of the request.
     //Check to see if the inputed tex in the requests body is not a object.
     //Check if the name, author, yearPublished, genre, checkedout, and image are in the requested body thats being posted.
     //Check to ensure name, author, and genre and image are a string which will allow image to be null as well. Chech if checkedout is a boolean and that year published is a number.
+    if(!req.body||typeof req.body !== 'object'||!('name' in req.body||!(typeof req.body.name !== 'string'||!('author' in req.body||!(typeof req.body.author !== 'string'||!('yearPublished' in req.body||!(typeof req.body.yearPublished !== 'number'||!('genre' in req.body||!(typeof req.body.genre !== 'string'||!('checkedOut' in req.body||(!typeof req.body.checkedOut !== 'boolean'||!('image' in req.body||!(typeof req.body.image !=='string'))))))))))))){
+        console.log(req.body)
+        clientError(req, "Missing Book request Information", 400)
+        res.statusCode = 400
+        res.json({error: "Missing Book request Information"})
+    }else{
+        //Define a regex to ensure name, author, and genre and image are letters only.
+        let regexbookName = /^[a-zA-Z0-9:{}\[\],.-\s]+$/
+        //create error checking to ensure that only a image can be inserted into image.
+        if(req.body.name === null){
+        clientError(req, "Book name required", 400)
+        res.statusCode = 400
+        res.json({error: "Book name required"})
+        }else if(!regexbookName.test(req.body.name)){
+        clientError(req, "Book name required", 400)
+        res.statusCode = 400
+        res.json({error: "Book name required"})
+        }else if(req.body.author === null){
+            clientError(req, "Author name required", 400)
+            res.statusCode = 400
+            res.json({error: "Author name required"})
+        }else if(!regexbookName.test(req.body.author)){
+            clientError(req, "Author name required", 400)
+            res.statusCode = 400
+            res.json({error: "Author name required"})
+        }else if(req.body.yearPublished === null){
+            clientError(req, "Year published required", 400)
+            res.statusCode = 400
+            res.json({error: "Year published required"})
+        }else if(req.body.genre === null){
+            clientError(req, "Genre is required", 400)
+            res.statusCode = 400
+            res.json({error: "Genre is required"})
+        }else if(!regexbookName.test(req.body.genre)){
+            clientError(req, "Genre is required", 400)
+            res.statusCode = 400
+            res.json({error: "Genre is required"})
+        }else if(req.body.checkedOut === null){
+            clientError(req, "Book has not been checked out", 400)
+            res.statusCode = 400
+            res.json({error: "Book has not been checked out"})
+        }else{
+            console.log(req.body)
+            const {
+                name,
+                author,
+                yearPublished,
+                genre,
+                checkedOut,
+                image
+            } = req.body
+
+            let bookRequest = await db.query('INSERT INTO bookInventory(name,author,yearPublished,genre,checkedOut,image) VALUES($1,$2,$3,$4,$5,$6) RETURNING *', [name,author,yearPublished,genre,checkedOut,image]);
+            res.json(bookRequest)
+            
+        }
+        
+    }
 
 
-    //Define a regex to ensure name, author, and genre and image are letters only.
-    //create error checking to ensure that only a image can be inserted into image.
+    
 
     // if no errors are found the post code to post to the database will go here.
 
+
+
+
+//Did not work Properly
+    //Define a variable to hold all of the valid fields in a array that can be used in the body of the patch request.
+    // const validfields = [blackList];
+    //Define another varible that will filter for invalid feilds using the Defined valid fields variable defined before look at todo CRUD for reference.
+    // const invalidFields = Object.keys(req.body).filter(field => !validfields.includes(field));
+
+    //Check to ensure that there are no more than 0 invalid fields in the body of the request if todo reference is used you can use the ivalid fields varaible to do this.
+    // if(invalidFields > 0){
+         //if a invalid field is found send back a 400 in response 
+        // clientError(req, "Invalid field detected", 400)
+        // res.statusCode = 400
+        // res.json({error: "Invalid fields detected"})
+    // }else{
+    //     if(!blackList && typeof blackList !== 'boolean'){
+    //         clientError(req, "Error has occured defining user blacklist", 400)
+    //         res.statusCode = 400
+    //         res.json({error: "Error has occured defining user blacklist"})
 
     
 })
 //User info update endpoint
 app.patch('/library/:id', async function(req,res){
     //take reference from both todo and pokemon project CRUD API's
+    //I used parseInt to parse the req.params.id from what I've read is reading as astring and is rturning it as a integer
+    const id = parseInt(req.params.id)
     //Create a const object that will hold all the accepted params that can be inserted into the requests body.
+    const {blackList} = req.body
+    console.log([blackList])
+    //determine if blacklist is a boolean
+    if(typeof blackList !== 'boolean'){
+        clientError(req, "Blacklist error has occured", 400);
+        res.statusCode = 400;
+        res.json({error: "Error occured Defining user Blacklist status"});
+        //try with catch allows the code to be tested without crashing by running it with try and catching any errors before they crash the server
+    }try{
+            //if no errors were found continue with the code that will update the database with the correct fields.
+            
+            let updateBlacklist = await db.query('UPDATE users SET blackList = $1 WHERE id = $2 RETURNING *', [blackList, id]);
+            res.json(updateBlacklist);
 
-    //Define a variable to hold all of the valid fields in a array that can be used in the body of the patch request.
-    //Define another varible that will filter for invalid feilds using the Defined valid fields variable defined before look at todo CRUD for reference.
-
-    //Check to ensure that there are no more than 0 invalid fields in the body of the request if todo reference is used you can use the ivalid fields varaible to do this.
-    //if a invalid field is found send back a 400 in response 
-    //if there are no invalid fields check the fields one of which will be the blacklist and age ensure that its its not undefined and if it is not undefined ensure that it is a boolean look at todo CRUD for reference and that age is not undefined and that age is a number.
-
-    //if no errors were found continue with the code that will update the database with the correct fields.
-
-
+            
+    }catch (error){
+        console.error("Error updating Blacklist", error);
+        clientError(req, "Blacklist error has occured", 400);
+        res.statusCode = 400;
+        res.json({error: "Error occured Defining user Blacklist status"});
+    }
 })
 
 //Book info update endpoint by 
-app.patch('library/:name', async function(req,res){
+app.patch('/books/:name', async function(req,res){
     //take reference from both todo and pokemon project CRUD API's.
     //Create a const object with valid feilds to check if their in the requests body.
+    //define a variable to hold the req.params.name
+    const bookName = req.params.name
 
     //Define a variable to hold all of the valid fields in a array that can be used in the body of the patch request.
-    //Define another varible that will filter for invalid feilds using the Defined valid fields variable defined before look at todo CRUD for reference.
+    const {checkedOut} = req.body
+    console.log({checkedOut})
+
+    //Determine if the checked out inside the req.body is a boolean and if its not send a 400 in response
+    if(typeof checkedOut !== 'boolean'){
+        clientError(req, "Error has occured whlie Checking Out designated Book", 400);
+        res.statusCode = 400;
+        res.json({error: "Error has occured whlie Checking Out designated Book"});
+    }try{
+        let checkoutBook = await db.query('UPDATE bookInventory SET checkedOut = $1 WHERE name = $2 RETURNING *', [checkedOut,bookName]);
+        res.json(checkoutBook)
+    }catch(error){
+        console.error("Error has occured checking out book", error);
+        clientError(req, "Error has occured checking out book", 400);
+        res.statusCode = 400;
+        res.json({error: "Error has occured checking out book"});
+    }
+    
 
     //Check to ensure that there are no more than 0 invalid fields in the body of the request if todo reference is used you can use the ivalid fields varaible to do this.
     //if a invalid field is found send back a 400 in response 
