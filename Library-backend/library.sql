@@ -26,13 +26,13 @@ VALUES
 
 CREATE TABLE users (
     id SERIAL PRIMARY KEY,
-    email VARCHAR (50) NOT NULL,
-    firstName VARCHAR (50) NOT NULL,
-    lastName VARCHAR (50) NOT NULL,
+    email VARCHAR (50) ,
+    firstName VARCHAR (50) ,
+    lastName VARCHAR (50) ,
     age INTEGER NOT NULL,
-    administrator BOOLEAN NOT NULL,
-    blackList BOOLEAN NOT NULL,
-    image VARCHAR(200) NULL
+    administrator BOOLEAN ,
+    blackList BOOLEAN ,
+    image VARCHAR(200) 
 );
 INSERT INTO users 
 (email, firstName, lastName, age, administrator, blackList, image)
