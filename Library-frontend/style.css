@@ -42,15 +42,28 @@ body{background-color: #F7F7F7;
         display: flex;
         justify-content: space-around;
     }
+
+
+/* for The logo and quotes section */
 .topContainer{
     display: flex;
     /* background-color: black; */
     /* width: 50%; */
-    justify-content: space-around;
+    justify-content: space-evenly;
+  }
+  #quotes{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: "Sedan", serif;
+    font-weight: 700;
+    font-style: bold;
+    width: 40%;
+    
+    
+  }
 
-
-/* Swiper */
-}
+  /* Swiper */
 .swiper {
     width: 60%;
     height: 35%;
@@ -64,6 +77,7 @@ body{background-color: #F7F7F7;
     justify-content: center;
     align-items: center;
     height: 90%;
+    display: block;
   }
 
   .swiper-slide img {
@@ -89,4 +103,5 @@ body{background-color: #F7F7F7;
   h2{
  font-family: 'Times New Roman', Times, serif;
   }
+  
     

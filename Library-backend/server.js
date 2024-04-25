@@ -46,30 +46,32 @@ app.all('/*', (req, res, next)=>{
     next()
 })
 
+//Check to make sure that only name and catagory can be used as a query here. If anything other than that is inputed send back a 400 error code.
+
+
+//Check to see if there is a body being inputed. If there is send back a 400 error. 
+//Then if there is not a body check the length of the query to ensure that only one query can be used at a time.
+
+//then if neither name or catagory and query is undefined in the query return all books in the library in json format.
+//then check to ensure that the query being put in is not a number or any dashes or slashes or any of the other puctuation junctions.
+//using Regex expression
+
+//define a varible with a empty object to hold the responce if nothing is found it wil stay a empty object.
+
+//This is where the SQL commands will go to get the information from the database that is specified in the query after the error checking.
 
 app.get('/library', async function(req,res){
-    console.log(req.query)
-
-    const getkeys = Object.keys(req.query)
-
-    //Check to make sure that only name and catagory can be used as a query here. If anything other than that is inputed send back a 400 error code.
-    
-    
-    //Check to see if there is a body being inputed. If there is send back a 400 error. 
-    //Then if there is not a body check the length of the query to ensure that only one query can be used at a time.
-    
-    //then if neither name or catagory and query is undefined in the query return all books in the library in json format.
-    //then check to ensure that the query being put in is not a number or any dashes or slashes or any of the other puctuation junctions.
-    //using Regex expression
-
-    //define a varible with a empty object to hold the responce if nothing is found it wil stay a empty object.
-
-    //This is where the SQL commands will go to get the information from the database that is specified in the query after the error checking.
-
-
-    
+    let allBooks = await db.many('SELECT * FROM bookInventory');
+    res.json(allBooks);
 })
-
+app.get('/users', async function(req,res){
+    let allUsers = await db.many('SELECT * FROM users');
+    res.json(allUsers);
+})
+app.get('/quotes', async function(req,res){
+    let allQuotes = await db.many('SELECT * FROM quotes');
+    res.json(allQuotes);
+})
 //User info Account creation Post
 app.post('/library', async function(req,res){
     //take reference from todo and pokemon project CRUD API's.
