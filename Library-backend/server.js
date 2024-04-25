@@ -127,6 +127,7 @@ app.post('/library', async function(req,res){
         //validate image to with a limit to a min and max amount of characters
         // let image = req.body.image.substring(10,200);
         //This is the error checking that checks all requrired body parameters in the request for the correct format
+        //Error check for null if any required value is null send back a 400 in responce
         if(req.body.email === null){
             clientError(req, "Email must be provided", 400)
             res.statusCode = 400
@@ -205,7 +206,7 @@ app.post('/books',async function(req,res){
     }else{
         //Define a regex to ensure name, author, and genre and image are letters only.
         let regexbookName = /^[a-zA-Z0-9:{}\[\],.-\s]+$/
-        //create error checking to ensure that only a image can be inserted into image.
+        //Error check for null if any required value is null send back a 400 in responce
         if(req.body.name === null){
         clientError(req, "Book name required", 400)
         res.statusCode = 400
@@ -239,6 +240,7 @@ app.post('/books',async function(req,res){
             res.statusCode = 400
             res.json({error: "Book has not been checked out"})
         }else{
+            // if no errors are found the post code to post to the database will go here.
             console.log(req.body)
             const {
                 name,
@@ -255,14 +257,70 @@ app.post('/books',async function(req,res){
         }
         
     }
+    
+})
 
+app.post('/quotes', async function(req,res){
+    //take reference from todo and pokemon project CRUD API's.
+    //Check if there is not anything in the body of the request.
+    //Check to see if the inputed tex in the requests body is not a object.
+    //Check if quote, auther, and book are in the requested body thats being posted.
+    //Check to quote, author, and book are a string which will allow image to be null as well. Chech if checkedout is a boolean and that year published is a number.
+    if(!req.body||typeof req.body !== 'object'||!('quote' in req.body||!(typeof req.body.quote !== 'string'||!('author' in req.body||!(typeof req.body.author !== 'string'||!('book' in req.body||!(typeof req.body.book !== 'string'))))))){
+        console.log(req.body)
+        clientError(req, "Missing quote requirements", 400)
+        res.statusCode = 400
+        res.json({error: "Missing quote requirements"})
+    }else{
+     //Define a regex to ensure quote, author, and book are letters required puctiation and punctuation junctions.
+     let regexQuote = /^['":a-zA-Z0-9.,{}\-\s]+$/
+
+     //Error check for null if any required value is null send back a 400 in response
+     if(req.body.quote === null){
+        clientError(req, "Quote is required", 400)
+        res.statusCode = 400
+        res.json({error: "Quote is required"})
+     }else if(!regexQuote.test(req.body.quote)){
+        clientError(req, "Quote is required", 400)
+        res.statusCode = 400
+        res.json({error: "Quote is required"})
+     }else if(req.body.author === null){
+        clientError(req, "Author is required", 400)
+        res.statusCode = 400
+        res.json({error: "Author is required"})
+     }else if(!regexQuote.test(req.body.author)){
+        clientError(req, "Author is required", 400)
+        res.statusCode = 400
+        res.json({error: "Author is required"})
+     }else if(req.body.book === null){
+        clientError(req, "Book is required", 400)
+        res.statusCode = 400
+        res.json({error: "Book is required"})
+     }else if(!regexQuote.test(req.body.book)){
+     clientError(req, "Book is required", 400)
+        res.statusCode = 400
+        res.json({error: "Book is required"})
+    }else{
+        // if no errors are found the post code to post to the database will go here.
+        console.log(req.body)
+        const {
+            quote,
+            author,
+            book
+        } = req.body
+        let postaQuote = await db.query('INSERT INTO quotes(quote,author,book) VALUES($1,$2,$3) RETURNING *', [quote,author,book]);
+        res.json(postaQuote)
+    }
+
+
+}
 
     
 
-    // if no errors are found the post code to post to the database will go here.
+    
 
-
-
+    
+})
 
 //Did not work Properly
     //Define a variable to hold all of the valid fields in a array that can be used in the body of the patch request.
@@ -282,8 +340,6 @@ app.post('/books',async function(req,res){
     //         res.statusCode = 400
     //         res.json({error: "Error has occured defining user blacklist"})
 
-    
-})
 //User info update endpoint
 app.patch('/library/:id', async function(req,res){
     //take reference from both todo and pokemon project CRUD API's
@@ -323,13 +379,16 @@ app.patch('/books/:name', async function(req,res){
     //Define a variable to hold all of the valid fields in a array that can be used in the body of the patch request.
     const {checkedOut} = req.body
     console.log({checkedOut})
-
+//Check to ensure that there are no more than 0 invalid fields in the body of the request if todo reference is used you can use the ivalid fields varaible to do this.
+    //if a invalid field is found send back a 400 in response 
+    //if there are no invalid fields check the fields one of which will be checkedout ensure that its its not undefined and if it is not undefined ensure that it is a boolean look at todo CRUD for reference.
     //Determine if the checked out inside the req.body is a boolean and if its not send a 400 in response
     if(typeof checkedOut !== 'boolean'){
         clientError(req, "Error has occured whlie Checking Out designated Book", 400);
         res.statusCode = 400;
         res.json({error: "Error has occured whlie Checking Out designated Book"});
     }try{
+        //if no errors were found continue with the code that will update the database with the correct fields.
         let checkoutBook = await db.query('UPDATE bookInventory SET checkedOut = $1 WHERE name = $2 RETURNING *', [checkedOut,bookName]);
         res.json(checkoutBook)
     }catch(error){
@@ -340,12 +399,9 @@ app.patch('/books/:name', async function(req,res){
     }
     
 
-    //Check to ensure that there are no more than 0 invalid fields in the body of the request if todo reference is used you can use the ivalid fields varaible to do this.
-    //if a invalid field is found send back a 400 in response 
-    //if there are no invalid fields check the fields one of which will be checkedout ensure that its its not undefined and if it is not undefined ensure that it is a boolean look at todo CRUD for reference.
+    
 
-    //if no errors were found continue with the code that will update the database with the correct fields.
-
+    
 })
 
 //User info delete endpoint
