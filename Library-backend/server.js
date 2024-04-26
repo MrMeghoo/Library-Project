@@ -19,6 +19,8 @@ const logger = winston.createLogger({
       new winston.transports.File({ filename: 'combined.log' }),
     ],
 });
+
+
 function clientError(req, message, errorCode){
     logger.log({
         level: 'info',
@@ -47,21 +49,7 @@ app.all('/*', (req, res, next)=>{
 
     });
     next()
-})  
-app.get('/library', async function(req,res){
-    console.log("all books") 
-    let allBooks = await db.many('SELECT * FROM bookInventory');
-        res.json(allBooks);
 
-    })
-app.get('/users', async function(req,res){
-        let allUsers = await db.many('SELECT * FROM users');
-        res.json(allUsers);
-    })
-app.get('/quotes', async function(req,res){
-        let allQuotes = await db.many('SELECT * FROM quotes');
-        res.json(allQuotes);
-    })
 
 app.post('/library', async function(req,res){
     })
