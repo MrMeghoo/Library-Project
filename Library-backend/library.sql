@@ -24,6 +24,31 @@ VALUES
 ("Bud, Not Buddy", 'Paul Curtis', 1999, '{"Historical Fiction", "Young Adult Literature", ", "Historical Novel"}', FALSE, 'https://m.media-amazon.com/images/I/81iq-CvU+yL._SL1500_.jpg'),
 ("Hardy Boys 01: the Tower Tresasure", 'Franklin W. Dixon', 1959, '{"Mystery", "Adventure Fiction"}', FALSE, 'https://m.media-amazon.com/images/I/61UcIuu5CWL._SL1200_.jpg'),
 ("Can't Hurt Me: Master Your Mind and Defy the Odds", 'David Goggins ', 2018, '{"Self-help book"}', FALSE, 'https://m.media-amazon.com/images/I/61pDNU9qEGL._SL1360_.jpg');
+("48 Laws of Power",'Robert Greene',1998, '{"Self-help book"}', FALSE, 'Library-backend/images/48laws.jpg');
+("The Art Thief",'Michael Finkel',2023, '{"True Crime", "Travel Literature", "Biography"}', FALSE, 'Library-backend/images/artthief.jpg');
+("The Ballad of Songbirds and Snakes",'Suzanna Collins',2020,'{"Science Fiction"}',FALSE,'Library-backend/images/balladofsong.jpg')
+("Between the World and Me",'Ta-Nehisi Coates',2015,'{"Autobiography", "American history"}', FALSE,'Library-backend/images/betweenworld.jpg')
+("Black Panther",'Ta-Nehisi Coates',2016,'{"Fiction", "Comics"}', FALSE, 'Library-backend/images/blackpanther.jpg');
+("Catching Fire", 'Suzanna Collins', 2009,'{"Science Fiction"}', FALSE, 'Library-backend/images/catchingfire.jpg');
+("The Lord Of The Rings: The Fellowship of the Ring", 'J. R. R. Tolkien', 1954,'{"Fantasy"}',FALSE,'Library-backend/images/fellowshipofring.jpg');
+("HAILE SELASSIE I KING OF KINGS - NEGUS NEGUST",'Faheem Judah-El D.D.', 2019,'{"Autobiography"}',FALSE,'Library-backend/images/haile.jpg');
+("The Heaven and Earth Grocery Store",'James McBride',2023,'{"Historical Fiction"}', FALSE,'Library-backend/images/heaven.jpg');
+("HOLLY", 'Stephen King',2023, '{"Horror Fiction"}', FALSE, 'Library-backend/images/holly.jpg');
+("The Hunger Games", 'Suzanne Collins', 2008, '{"Science Fiction"}',FALSE, 'Library-backend/images/hungergames.jpg');
+("Kebre Nagast", 'Nebure Id Ishaq of Aksum/E.A. Wallis Budge', 1317, '{"History"}', FALSE, 'Library-backend/images/kebranagast.jpg');
+("To Kill a Mockingbird", 'Harper Lee', 1960, '{Domestic Fiction}', FALSE, 'Library-backend/images/killmocking.jpg');
+("The Communist Manifesto", 'Karl Marx & Frederick Engels', 1848,'{"Philosophy"}', FALSE, 'Library-backend/images/manifesto.jpg');
+("Adventure of Huckleberry Finn", 'Mark Twain',1884,'{"Adventure Fiction"}', FALSE, 'Library-backend/images/huck.jpg');
+("Master and Commander", 'Patrick Obrian', 1969,'{"Sea Novel"}',FALSE,'Library-backend/images/mastercommander.jpg');
+("Mockingjay",'Suzanne Collins', 2010, '{"Science Fiction"}', FALSE,'Library-backend/images/mockingjay.jpg');
+("The Lord Of The Rings: Return Of The King",'J. R. R. Tolkien',1955,'{"Fantasy"}', FALSE,'Library-backend/images/returnofking.jpg');
+("Rich Dad Poor Dad", 'Robert T. Kiyosaki',1997,'{"Non-Fiction"}', FALSE,'Library-backend/images/richdad.jpg');
+("The Wager", 'David Grann',2023,'{"True Crime"}',FALSE,'Library-backend/images/thewager.jpg');
+("The Lord Of The Rings: The Two Towers",'J. R. R. Tolkien',1954,'{Fantasy}',FALSE,'Library-backend/images/twotowers.jpg');
+("The Water Dancer",'Ta-Nehisi Coates',2019,'{"Historical Fiction"}',FALSE,'Library-backend/images/waterdancer.jpg');
+("Wellness", 'Nathan Hill',2023,'{"Urban Fiction"}', FALSE,'Library-backend/images/wellness.jpg');
+("When The Game Was Ours",'Jackie MacMullan', 2009, '{"Biography"}', FALSE,'Library-backend/images/whenthegame.jpg');
+
 
 CREATE TABLE users (
     id SERIAL PRIMARY KEY,
