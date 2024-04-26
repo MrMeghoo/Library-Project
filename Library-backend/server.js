@@ -3,8 +3,11 @@ const pgp = require('pg-promise')();
 const winston = require('winston')
 
 
+
 const app = express()
 const db = pgp('postgres://avdxxhsq:Ngu7xpaEW3m4SGx0lWBeOln7iq_WErpE@ziggy.db.elephantsql.com/avdxxhsq')
+
+
 const logger = winston.createLogger({
     level: 'info',
     format: winston.format.json(),
@@ -16,7 +19,7 @@ const logger = winston.createLogger({
       new winston.transports.File({ filename: 'combined.log' }),
     ],
 });
-app.use(express.json())
+
 
 function clientError(req, message, errorCode){
     logger.log({
@@ -43,213 +46,107 @@ app.all('/*', (req, res, next)=>{
         body: req.body,
         ip: req.ip,
         timestamp: new Date()
+
     });
     next()
-})
-
-//Check to make sure that only name and catagory can be used as a query here. If anything other than that is inputed send back a 400 error code.
 
 
-//Check to see if there is a body being inputed. If there is send back a 400 error. 
-//Then if there is not a body check the length of the query to ensure that only one query can be used at a time.
-
-//then if neither name or catagory and query is undefined in the query return all books in the library in json format.
-//then check to ensure that the query being put in is not a number or any dashes or slashes or any of the other puctuation junctions.
-//using Regex expression
-
-//define a varible with a empty object to hold the responce if nothing is found it wil stay a empty object.
-
-//This is where the SQL commands will go to get the information from the database that is specified in the query after the error checking.
-
-// endpoint to get all books 
-app.get('/library', async (req,res) =>{
-    // Check to makes sure theres nothing in the body
-    if(Object.keys(req.body).length != 0) {
-        clientError(req, "Request body is not permitted", 400)
-        res.status(400).json({error: "Request body is not permitted"});
-    } 
-    // check to make sure theres queries 
-    else if(Object.keys(req.query).length != 0){ 
-        clientError(req, "Query Parameters do not meet requirements", 400);
-        res.status(400).json({error: "Query Parameters do not meet requirements"});
-    } else {
-        let allBooks = await db.many('SELECT * FROM bookInventory');
-        res.json(allBooks); 
-    }
-})
-
-// endpoint to get trending books
-app.get('/library/trending', async (req,res) =>{
-    
-    if(Object.keys(req.body).length != 0) {
-        clientError(req, "Request body is not permitted", 400)
-        res.status(400).json({error: "Request body is not permitted"});
-    } 
-    // check to make sure theres queries 
-    else if(Object.keys(req.query).length != 0){ 
-        clientError(req, "Query Parameters do not meet requirements", 400);
-        res.status(400).json({error: "Query Parameters do not meet requirements"});
-    } else {
-    let allBooks = await db.many('SELECT * FROM bookInventory WHERE bookInventory.trending = true ORDER BY RANDOM() LIMIT 9');
-    res.json(allBooks); 
-    } 
-})
-
-// endpoint to get rando staff picks 
-app.get('/library/staffPick', async (req,res) =>{
-    if(Object.keys(req.body).length != 0) {
-        clientError(req, "Request body is not permitted", 400)
-        res.status(400).json({error: "Request body is not permitted"});
-    } 
-    // check to make sure theres queries 
-    else if(Object.keys(req.query).length != 0){ 
-        clientError(req, "Query Parameters do not meet requirements", 400);
-        res.status(400).json({error: "Query Parameters do not meet requirements"});
-    } else {
-    let allBooks = await db.many('SELECT * FROM bookInventory WHERE bookInventory.staffPick = true ORDER BY RANDOM() LIMIT 9');
-    res.json(allBooks);  
-    }
-})
-
-// endpoint to get quotes
-app.get('/users', async function(req,res){
-    if(Object.keys(req.body).length != 0) {
-        clientError(req, "Request body is not permitted", 400)
-        res.status(400).json({error: "Request body is not permitted"});
-    } 
-    // check to make sure theres queries 
-    else if(Object.keys(req.query).length != 0){ 
-        clientError(req, "Query Parameters do not meet requirements", 400);
-        res.status(400).json({error: "Query Parameters do not meet requirements"});
-    } else {
-    let allUsers = await db.many('SELECT * FROM users');
-    res.json(allUsers);
-    }
-})
-
-// endpoint to get quotes
-app.get('/quotes', async function(req,res){
-    if(Object.keys(req.body).length != 0) {
-        clientError(req, "Request body is not permitted", 400)
-        res.status(400).json({error: "Request body is not permitted"});
-    } 
-    // check to make sure theres queries 
-    else if(Object.keys(req.query).length != 0){ 
-        clientError(req, "Query Parameters do not meet requirements", 400);
-        res.status(400).json({error: "Query Parameters do not meet requirements"});
-    } else {
-    let allQuotes = await db.many('SELECT * FROM quotes');
-    res.json(allQuotes);
-    }
-})
-//User info Account creation Post
 app.post('/library', async function(req,res){
-    //take reference from todo and pokemon project CRUD API's.
-    //Check if there is not anything in the body of the request.
-    //Check to see if the inputed tex in the requests body is not a object.
-    // Check if email, firstName, lastName, age, administrator, blackList, image are in the body.
-    //Check to see if email, First name, Last name, are a string, if age is a number, if blacklist and administrator is a boolean and if image is a string which will allow it to be null as well.
-    
-    
-    
-    //define  2 regex to check to check if one eamil is letters numbers and a @ symbol. Two if first name and last name are letters. 
-    // Error check image to ensure that only image can be inserted.
+    })
 
-    // if no errors are found This is where the code to post the information will be go.
-    
-
-
-
-
-})
-
-//Book request post
-app.post('/library',async function(req,res){
-    //take reference from todo and pokemon project CRUD API's.
-    //Check if there is not anything in the body of the request.
-    //Check to see if the inputed tex in the requests body is not a object.
-    //Check if the name, author, yearPublished, genre, checkedout, and image are in the requested body thats being posted.
-    //Check to ensure name, author, and genre and image are a string which will allow image to be null as well. Chech if checkedout is a boolean and that year published is a number.
-
-    //Define a regex to ensure name, author, and genre and image are letters only.
-    //create error checking to ensure that only a image can be inserted into image.
-
-    // if no errors are found the post code to post to the database will go here.
-
-
-    
-})
-//User info update endpoint
 app.patch('/library/:id', async function(req,res){
-    //take reference from both todo and pokemon project CRUD API's
-    //Create a const object that will hold all the accepted params that can be inserted into the requests body.
-
-    //Define a variable to hold all of the valid fields in a array that can be used in the body of the patch request.
-    //Define another varible that will filter for invalid feilds using the Defined valid fields variable defined before look at todo CRUD for reference.
-
-    //Check to ensure that there are no more than 0 invalid fields in the body of the request if todo reference is used you can use the ivalid fields varaible to do this.
-    //if a invalid field is found send back a 400 in response 
-    //if there are no invalid fields check the fields one of which will be the blacklist and age ensure that its its not undefined and if it is not undefined ensure that it is a boolean look at todo CRUD for reference and that age is not undefined and that age is a number.
-
-    //if no errors were found continue with the code that will update the database with the correct fields.
-
-
-})
+    })
 
 //Book info update endpoint by 
 app.patch('library/:name', async function(req,res){
-    //take reference from both todo and pokemon project CRUD API's.
-    //Create a const object with valid feilds to check if their in the requests body.
+    })
 
-    //Define a variable to hold all of the valid fields in a array that can be used in the body of the patch request.
-    //Define another varible that will filter for invalid feilds using the Defined valid fields variable defined before look at todo CRUD for reference.
 
-    //Check to ensure that there are no more than 0 invalid fields in the body of the request if todo reference is used you can use the ivalid fields varaible to do this.
-    //if a invalid field is found send back a 400 in response 
-    //if there are no invalid fields check the fields one of which will be checkedout ensure that its its not undefined and if it is not undefined ensure that it is a boolean look at todo CRUD for reference.
-
-    //if no errors were found continue with the code that will update the database with the correct fields.
-
-})
-// Book deletion endpoint
-app.delete('/books/:name', async function(req, res){
-    const name = req.params.name;
-
-    if (!name) {
-        return res.status(400).json({ message: 'Name parameter is required' });
+    
+  
+    
+app.delete('/books/:param', async function(req, res){
+    let param = req.params.param;
+    
+    if (!param) {
+        return res.status(400).json({ message: 'Parameter is required' });
     }
+    
+    // Check if request body exists and is not null
+    if (req.body && Object.keys(req.body).length !== 0) {
+        return res.status(400).json({ message: 'Request body not permitted' });
+    }
+    
+    // Check for special characters in param
+    const specialCharsRegex = /[!@#$%^&*(),.?":{}|<>]/;
+    if (specialCharsRegex.test(param)) {
+        return res.status(400).json({ message: 'Invalid characters in parameter' });
+    }
+    
     try {
-        const result = await db.result('DELETE FROM bookInventory WHERE name LIKE $1', [name]);
-        if (result.rowCount === 0) {
-            return res.status(404).json({ message: 'Book not found' });
+        if (!isNaN(param)) {  // Check if the parameter is a number (ID)
+            const bookId = parseInt(param);
+            // Check if the ID exists in the database
+            const book = await db.oneOrNone('SELECT * FROM bookInventory WHERE id = $1', [bookId]);
+        if (!book) {
+                return res.status(404).json({ message: 'Book ID not found' });
         }
-        
-    res.status(200).json({ message: 'Book deleted successfully' });
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: 'Internal Server Error' });
+            await db.result('DELETE FROM bookInventory WHERE id = $1', [bookId]);
+            } else {
+        // Check if the name exists in the database
+        const book = await db.oneOrNone('SELECT * FROM bookInventory WHERE name = $1', [param]);
+        if (!book) {
+            return res.status(404).json({ message: 'Book name not found' });
+        }
+            await db.result('DELETE FROM bookInventory WHERE name = $1', [param]);
+        }
+            res.status(200).json({ message: 'Book deleted successfully' });
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({ message: 'Internal Server Error' });
+        }
+    });
+    
+
+
+// User info delete endpoint by ID or email
+app.delete('/users/:param', async function(req, res){
+    const param = req.params.param;
+
+    if (!param) {
+        return res.status(400).json({ message: 'Parameter is required' });
     }
-});
-
-
-//User info delete endpoint by ID
-app.delete('/users/:id', async function(req, res){
-    const userId = req.params.id;
-
-    if (!userId) {
-        return res.status(400).json({ message: 'ID parameter is required' });
+    if (req.body && Object.keys(req.body).length !== 0) {
+        return res.status(400).json({ message: 'Request body not permitted' });
+    }
+    const specialCharsRegex = /[!@#$%^&*(),.?":{}|<>]/;
+    if (specialCharsRegex.test(param)) {
+        return res.status(400).json({ message: 'Invalid characters in parameter' });
     }
 
     try {
-        // Check if user exists
-        const checkUser = await db.oneOrNone('SELECT id FROM users WHERE id = $1', [userId]);
+        let deleteUserQuery;
+        let deleteUserParam;
+
+        // Checks for if param is a number ex: (ID)
+        if (!isNaN(param)) {
+            deleteUserQuery = 'DELETE FROM users WHERE id = $1';
+            deleteUserParam = parseInt(param);
+        } else {
+            deleteUserQuery = 'DELETE FROM users WHERE email = $1';
+            deleteUserParam = param;
+        }
+        // Checking for user in our database
+        const checkUser = await db.oneOrNone('SELECT id FROM users WHERE id = $1 OR email = $2', [deleteUserParam, deleteUserParam]);
+
         
         if (!checkUser) {
             return res.status(404).json({ message: 'User not found' });
         }
-
         // Delete user
         await db.result('DELETE FROM users WHERE id = $1', [userId]);
+        
+        await db.result(deleteUserQuery, [deleteUserParam]);
         
         res.status(200).json({ message: 'User deleted successfully' });
     } catch (error) {
@@ -258,16 +155,38 @@ app.delete('/users/:id', async function(req, res){
     }
 });
 
+
+// Quote delete endpoint
 app.delete('/quotes/:id', async function(req, res){
     const quoteId = req.params.id;
 
+    // Check if ID parameter exists
     if (!quoteId) {
         return res.status(400).json({ message: 'ID parameter is required' });
     }
 
+    // Check if ID contains special characters
+    const specialCharsRegex = /[!@#$%^&*(),.?":{}|<>]/;
+    if (specialCharsRegex.test(quoteId)) {
+        return res.status(400).json({ message: 'Invalid characters in ID' });
+    }
+
+    // Check if request body exists and is not null
+    if (req.body && Object.keys(req.body).length !== 0) {
+        return res.status(400).json({ message: 'Request body not permitted' });
+    }
+
     try {
-        await db.result('DELETE FROM quotes WHERE id = $1', [quoteId]);
+        // Check if quote with the given ID exists
+        const checkQuote = await db.oneOrNone('SELECT id FROM quotes WHERE id = $1', [quoteId]);
         
+        if (!checkQuote) {
+            return res.status(404).json({ message: 'Quote not found' });
+        }
+
+        // Delete quote
+        await db.result('DELETE FROM quotes WHERE id = $1', [quoteId]);
+
         res.status(200).json({ message: 'Quote deleted successfully' });
     } catch (error) {
         console.error(error);
@@ -275,6 +194,8 @@ app.delete('/quotes/:id', async function(req, res){
     }
 });
 
+
 app.listen(3000, ()=> {
     console.log("Server is running on port 3000");
 })
+
