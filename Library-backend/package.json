@@ -4,8 +4,9 @@
   "description": "House of Pages backend Project",
   "main": "server.js",
   "scripts": {
+    "start": "nodemon server.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon server.js"
+    "dev": "nodemon index.js"
   },
   "author": "Team 3",
   "license": "ISC",

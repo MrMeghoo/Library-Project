@@ -6,7 +6,10 @@ CREATE TABLE bookInventory (
     yearPublished INTEGER,
     genre TEXT [],
     checkedOut BOOLEAN,
+    trending BOOLEAN,
+    staffPick BOOLEAN,
     image VARCHAR(200));
+
 
 
 INSERT INTO bookInventory (
@@ -15,10 +18,11 @@ INSERT INTO bookInventory (
     yearPublished,
     genre,
     checkedOut,
-    image);
-
-
+    trending, 
+    staffPick,
+    image)
 VALUES 
+
 ('Atomic Habits: An Easy and Proven Way to Build Good Habits and Break Bad Ones', 'James Clear', 2018, '{"Self-help book"}', FALSE, 'https://upload.wikimedia.org/wikipedia/commons/0/06/Atomic_habits.jpg'),
 ('Harry Potter and the Sorcerer''s Stone', 'J. K. Rowling', 1997, '{"Novel", "Fantasy Fiction", "High fantasy"}', FALSE, 'https://media.harrypotterfanzone.com/sorcerers-stone-us-childrens-edition.jpg'),
 ('Bud, Not Buddy', 'Paul Curtis', 1999, '{"Historical Fiction", "Young Adult Literature", "Historical Novel"}', FALSE, 'https://m.media-amazon.com/images/I/81iq-CvU+yL._SL1500_.jpg'),
@@ -35,7 +39,6 @@ CREATE TABLE users (
     email VARCHAR (100) UNIQUE,
     firstName VARCHAR (50),
     lastName VARCHAR (50),
-    password VARCHAR (250),
     age INTEGER,
     administrator BOOLEAN,
     blackList BOOLEAN,
@@ -47,17 +50,17 @@ VALUES
 ('estradagabe1996@gmail.com', 'Gabe', 'Estrada', 27, TRUE, FALSE, null), 
 ('diddy@gmail.com', 'Sean', 'Combs', 54, FALSE, TRUE, null);
 
-
 CREATE TABLE quotes (
     id SERIAL PRIMARY KEY,
     quote VARCHAR (250),
     author VARCHAR (50),
     book VARCHAR (100)
 );
+
 INSERT INTO quotes (quote, author, book)
 VALUES
-('There is some good in this world, and it’s worth fighting for.', 'J.R.R. Tolkien', 'The Two Towers'),
-('Beware; for I am fearless, and therefore powerful.', 'Mary Shelley', 'Frankenstein'),
-('"Why did you do all this for me?" he asked. "I don''t deserve it. I''ve never done anything for you." "You have been my friend," replied Charlotte. "That in itself is a tremendous thing, Mary Shelley"', 'E.B. White', 'Charlotte''s Web');
 
+("There is some good in this world, and it’s worth fighting for.", 'J.R.R. Tolkien', 'The Two Towers'),
+("Beware; for I am fearless, and therefore powerful.", "Mary Shelley", "Frankenstein"),
+(`Why did you do all this for me?’ he asked. ‘I don’t deserve it. I’ve never done anything for you.’ ‘You have been my friend,’ replied Charlotte. ‘That in itself is a tremendous thing", "Mary Shelley"`, "E.B. White", "Charlotte’s Web");
 

@@ -172,5 +172,18 @@ body{background-color: #F7F7F7;
   h2{
  font-family: 'Times New Roman', Times, serif;
   }
+
+
+  .bookscontainer{
+    display: grid;
+    grid-template-columns: 50% 50%;
+    height: 15%;
+    width: 30%;
+    flex-direction: column;
+
+
+  }
+
+
+
   
-    
