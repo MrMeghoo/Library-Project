@@ -1,11 +1,48 @@
+require("dotenv").config()
 const { kMaxLength } = require('buffer');
 const express = require('express')
+const path = require('path');
 const pgp = require('pg-promise')();
 const winston = require('winston')
-const cors = require('cors');
-
+const cors = require('cors');const swaggerUI=require('swagger-ui-express');
+const YAML=require('yamljs');
+const swaggerDocument=YAML.load('../Library-frontend/api.yaml');
 const app = express()
-const db = pgp('postgres://avdxxhsq:Ngu7xpaEW3m4SGx0lWBeOln7iq_WErpE@ziggy.db.elephantsql.com/avdxxhsq')
+const db = pgp('postgres://corcoding@localhost:5432/postgres')
+const bcrypt = require('bcrypt');
+const { name } = require('ejs');
+const initializePassport = require('./passport-config')
+const flash =require('express-flash')
+const session = require('express-session')
+const passport = require('passport')
+
+
+
+
+initializePassport(
+    passport,
+    email => db.oneOrNone('SELECT * FROM users WHERE email = $1',email),
+    id => db.oneOrNone('SELECT * FROM users WHERE id = $1', id)
+);
+
+
+
+
+app.use(express.static(path.join(__dirname,'../Library-frontend')))
+app.use(flash())
+app.use(session({
+    secret:
+     'mysecret',
+    resave: false, // We wont resave the session variable if nothing is changed
+    saveUninitialized: false
+}));
+app.use(passport.initialize())
+app.use(passport.session())
+app.use("api-docs",swaggerUI.serve,swaggerUI.setup(swaggerDocument))
+app.use(express.json());
+app.use(express.urlencoded({ extended: true}));
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname,'views'));
 
 app.use(express.json());
 app.use(cors());
@@ -52,6 +89,96 @@ app.all('/*', (req, res, next)=>{
     });
     next()
 })
+
+
+app.get('/library/login', async function(req,res){
+    if(Object.keys(req.body).length > 0){
+        res.status(400).json({message:"Body not permitted"})
+    }
+        try{
+    res.render("login.ejs")
+        }catch(e){
+            console.log(e)
+            res.status(500).json({msg:'Internal Server error'})
+        }
+
+})
+
+app.get('/library/signup', async function(req,res){
+    if(Object.keys(req.body).length > 0){
+        res.status(400).json({message:"Body not permitted"})
+    }
+    try{
+    res.render("signup.ejs")
+    }catch(e){
+        console.log(e)
+        res.status(500).json({msg:'Internal Server error'})
+    }
+})
+
+
+app.post('/library/signup', async function(req,res){
+    const regex = /^[a-zA-Z0-9/,:.@ ]+$/;
+    let obj = req.body;
+    console.log(obj)
+    let arr = [...Object.values(obj)];
+    if (!arr.every((item) => regex.test(item))) {
+      // checks if any special characters were used
+      clientError(req, "Body does not meet requirements", 400);
+      return res.status(400).json({ msg: "Body Does not meet requirements" });
+    }
+    const hashtedPassword = await bcrypt.hash(req.body.password,10)
+let {email, firstName, lastName, password} = req.body;
+if(!email||!firstName||!lastName||!password){
+    res.status(400).json({msg:'Invalid fields'})
+}
+try{
+await db.none("INSERT INTO users (email, firstName, lastName, password) VALUES ($1, $2, $3, $4)",
+[email, firstName, lastName, hashtedPassword])
+res.redirect("/library/login")
+}catch(error){
+if(error.code === "23505"){
+    clientError(req, "Email already exist", 400);
+    res.status(400).json({ msg: "Email already exist" })
+}
+}
+})
+app.post('/library/login', passport.authenticate("local",{
+    successRedirect: "/",
+    failureRedirect: "/library/login",
+    failureFlash: true
+}))
+
+app.post('/library/login', async function(req, res) {
+    const regex = /^[a-zA-Z0-9/,:.@ ]+$/;
+    let obj = req.body;
+    console.log(obj)
+    let arr = [...Object.values(obj)];
+    console.log(arr)
+    if (!arr.every((item) => regex.test(item))) {
+      // checks if any special characters were used
+      clientError(req, "Body does not meet requirements", 400);
+      return res.status(400).json({ msg: "Body Does not meet requirements" });
+    }
+    const { email, password } = req.body;
+    try {
+        const user = await db.oneOrNone('SELECT * FROM users WHERE email = $1', [email]);
+        if (user) {
+            const match = await bcrypt.compare(password, user.password);
+            if (match) {
+                res.send('Login Successful');
+            } else {
+                res.status(401).send('Invalid password');
+            }
+        } else {
+            res.status(401).send('Invalid Credentials');
+        }
+    } catch (error) {
+        console.error('Login error:', error);
+        res.status(500).send('Internal Server Error');
+    }
+});
+
 
 
 //User info Account creation Post
