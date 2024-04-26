@@ -5,7 +5,10 @@ body {
 }
 
 .container{
-text-align: center;
+align-items: self-start;
+text-align: justify;
+font-size: xx-large;
+height: 400%;
 
 }
 .login-card {
