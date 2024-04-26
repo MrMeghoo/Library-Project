@@ -36,7 +36,7 @@ VALUES
 
 CREATE TABLE users (
     id SERIAL PRIMARY KEY,
-    email UNIQUE VARCHAR (100),
+    email VARCHAR (100) UNIQUE,
     firstName VARCHAR (50),
     lastName VARCHAR (50),
     age INTEGER,

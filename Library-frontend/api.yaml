@@ -1,0 +1,6 @@
+swagger: '2.0'
+info:
+  title: Sample API
+  description: API documentation
+  version: '1.0.0'
+host: localhost:3000
