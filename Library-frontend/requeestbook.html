@@ -58,7 +58,7 @@
 
     <button onclick="submitBooks()" type="button">Submit Books</button>
 
-    <form id="bookForm" onsubmit="submitBooks()">
+    <form id="bookForm">
         <label for="name">Name:</label><br>
         <input type="text" id="name" name="name"><br>
         <label for="author">Author:</label><br>
@@ -69,7 +69,25 @@
         <input type="text" id="genre" name="genre"><br><br>
         <button  type="submit" value="Submit">Submit</button>
     </form>
+<script>
+  const form = document.getElementById("bookForm")
 
+   form.addEventListener('submit',function(e){
+       e.preventDefault();
+
+      const payload = new FormData(form)
+
+      console.log([...payload])
+   })
+
+   fetch('http://localhost:3000/books', {
+    method: 'POST',
+    body: payload,
+   })
+   .then(res => res.json())
+   .then(data => console.log(data))
+   .catch(err => console.log(err));
+</script>
     <script src="./script.js"></script>
 </body>
 
