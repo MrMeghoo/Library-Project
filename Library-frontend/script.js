@@ -62,21 +62,70 @@ function submitBooks(){
 // })
 
 
-// This fetchs book covers for the carousels 
-function bookCover(elementID, index) {
+// This fetchs book covers for the trendingcarousels 
+function trending(elementID, index) {
+  fetch("http://localhost:3000/library/trending")
+  .then((response) => response.json())
+  .then((data) => {
+    let bookIMG = document.getElementById(elementID);
+    let book = document.createElement('img');
+    book.src = data[index].image;
+    bookIMG.appendChild(book);   
+  })   
+}
+// This fetchs book covers for the staff picks carousels 
+function staffPicks(elementID, index) {
+  fetch("http://localhost:3000/library/staffPick")
+  .then((response) => response.json())
+  .then((data) => {
+    
+    let bookIMG = document.getElementById(elementID);
+    let book = document.createElement('img');
+    book.src = data[index].image;
+    bookIMG.appendChild(book);   
+  })   
+}
+
+// pages.html to assign individual book 
+function soloBook(elementID, index) {
   fetch("http://localhost:3000/library")
   .then((response) => response.json())
   .then((data) => {
+    console.log(data[index].image)
+    let cover = document.getElementById(elementID);
+    let bookIMG = document.createElement('img');
 
-    let bookIMG = document.getElementById(elementID);
-    let book = document.createElement('img');
-
-    book.src = data[index].image;
-
-    bookIMG.appendChild(book);
-      
-  })
+    bookIMG.src = data[index].image;
+    cover.appendChild(bookIMG); 
     
+    
+    let book = document.getElementById('bookTitle');
+    let author = document.getElementById('bookAuthor');
+    let year = document.getElementById('year')
+    let availability = document.getElementById('availability')
+
+    let bookTitle = data[index].name;
+    let bookAuthor = "By: " + data[index].author;
+    let bookYear = "Published: " + data[index].yearpublished;
+    let available = "In Stock";
+    let notAvailable = "Checked Out";
+
+        book.innerText = bookTitle;
+        author.innerText = bookAuthor;
+        year.innerText = bookYear;
+        console.log(data[index].checkedout)
+
+
+    if(data[index].checkedout == false) {
+        availability.innerText = available;
+        availability.style.color = 'green';
+        console.log("test false")
+    } else {
+      availability.innerText = notAvailable;
+      availability.style.color = 'red';
+      console.log("test true")
+    }
+  })   
 }
 
 // This loads a random quote for the quotes section on main page
@@ -97,95 +146,18 @@ function loadQuotes() {
   }
 )}
 
-//Form js code for Request Book page
+function displaySelect(){
+  //add event listner to listen for which book is clicked 
+  //then navigate to pages.html
+  //display the clicked book details on this page.
+  //page should be blank until a book is clicked
+  const displayedBook = document.querySelector('#displayBook');
 
-// document.addEventListener('DOMContentLoaded', function () {
-//   document.getElementById('bookForm').addEventListener('submit', function(event) {
-//      //preventDefault basically prevents default form functionality otherwise a new page would have been needed
-//     event.preventDefault(); 
-      
-      
-//       var formData = {
-//           name: document.getElementById('name').value,
-//           author: document.getElementById('author').value,
-//           yearPublished: document.getElementById('yearPublished').value,
-//           genre: document.getElementById('genre').value,
-//           checkedOut: document.getElementById('checkedOut').value,
-//           image: document.getElementById('image').value
-//       };
-
-//       console.log(formData)
-      
-//       //uses the books post to post from to bookInventory Database
-//       fetch('/books', {
-//           method: 'POST',
-//           headers: {
-//               'Content-Type': 'application/json'
-//           },
-//           body: JSON.stringify(formData)
-//       })
-//       .then(function(response) {
-//           if (!response.ok) {
-//               throw new Error('Network response was not ok');
-//           }
-//           return response.json();
-//       })
-//       .then(function(data) {
-          
-//           console.log(data);
-//           //sends an alert to the page for success
-//           alert('Book added successfully!');
-//       })
-//       .catch(function(error) {
-          
-//           console.error('There was a problem with your fetch operation:', error);
-//           //sends an alert to the page for error
-//           alert('Failed to add book. Please try again.');
-//       });
-//   });
-// });
-
-
-
-
-function getBooks(){
-  fetch("http://localhost:3000/books")
-  .then((response)=> response.json())
-  .then((data)=>{
-    console.log(data)
-    for(let i=0; i < data.length; i++){
-      let book = data[i]
-      let detailedContainer = document.createElement("div");
-      detailedContainer.classList.add("card")
-
-      let bookImage = document.createElement("img");
-      bookImage.src = book.image
-      bookImage.alt = book.name
-
-      let authortag = document.createElement("p");
-      authortag.innerText = book.author
-
-      let booktag = document.createElement("p")
-      booktag.innerText = book.name
-
-      let publishedtag = document.createElement("p")
-      publishedtag.innerText = book.yearpublished
-
-      let genretag = document.createElement("p")
-      //join() method basically takes all the genre from the resonse. and joins them into a string
-      genretag.innerText = book.genre.join(", ")
-
-      detailedContainer.appendChild(bookImage);
-      detailedContainer.appendChild(authortag);
-      detailedContainer.appendChild(booktag)
-      detailedContainer.appendChild(publishedtag)
-      detailedContainer.appendChild(genretag)
-      document.getElementById("theBooks").appendChild(detailedContainer)
-    }
-  })
-  .catch(error => {
-    console.error("Error fetching book data", error)
+  displayedBook.addEventListener('click', function() {
+    window.location.href = "/Users/gabrielestrada/Code/Library-Project/Library-frontend/pages.html"
   })
 }
+
+//onclick="location.href='login.html';"
 
 
