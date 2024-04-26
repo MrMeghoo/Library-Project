@@ -206,6 +206,7 @@ app.post('/library', async function(req,res){
 
 //New Book post
 app.post('/books',async function(req,res){
+    res.set('Access-Control-Allow-Origin', '*');
     //take reference from todo and pokemon project CRUD API's.
     //Check if there is not anything in the body of the request.
     //Check to see if the inputed tex in the requests body is not a object.
@@ -248,10 +249,6 @@ app.post('/books',async function(req,res){
             clientError(req, "Genre is required", 400)
             res.statusCode = 400
             res.json({error: "Genre is required"})
-        }else if(req.body.checkedOut === null){
-            clientError(req, "Book has not been checked out", 400)
-            res.statusCode = 400
-            res.json({error: "Book has not been checked out"})
         }else{
             // if no errors are found the post code to post to the database will go here.
             console.log(req.body)
@@ -259,12 +256,10 @@ app.post('/books',async function(req,res){
                 name,
                 author,
                 yearPublished,
-                genre,
-                checkedOut,
-                image
+                genre
             } = req.body
 
-            let bookRequest = await db.query('INSERT INTO bookInventory(name,author,yearPublished,genre,checkedOut,image) VALUES($1,$2,$3,$4,$5,$6) RETURNING *', [name,author,yearPublished,genre,checkedOut,image]);
+            let bookRequest = await db.query('INSERT INTO bookInventory(name,author,yearPublished,genre) VALUES($1,$2,$3,$4) RETURNING *', [name,author,yearPublished,genre,checkedOut,image]);
             res.json(bookRequest)
             
         }
