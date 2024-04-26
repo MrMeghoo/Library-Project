@@ -148,35 +148,35 @@ app.post('/library/login', passport.authenticate("local",{
     failureFlash: true
 }))
 
-// app.post('/library/login', async function(req, res) {
-//     const regex = /^[a-zA-Z0-9/,:.@ ]+$/;
-//     let obj = req.body;
-//     console.log(obj)
-//     let arr = [...Object.values(obj)];
-//     console.log(arr)
-//     if (!arr.every((item) => regex.test(item))) {
-//       // checks if any special characters were used
-//       clientError(req, "Body does not meet requirements", 400);
-//       return res.status(400).json({ msg: "Body Does not meet requirements" });
-//     }
-//     const { email, password } = req.body;
-//     try {
-//         const user = await db.oneOrNone('SELECT * FROM users WHERE email = $1', [email]);
-//         if (user) {
-//             const match = await bcrypt.compare(password, user.password);
-//             if (match) {
-//                 res.send('Login Successful');
-//             } else {
-//                 res.status(401).send('Invalid password');
-//             }
-//         } else {
-//             res.status(401).send('Invalid Credentials');
-//         }
-//     } catch (error) {
-//         console.error('Login error:', error);
-//         res.status(500).send('Internal Server Error');
-//     }
-// });
+app.post('/library/login', async function(req, res) {
+    const regex = /^[a-zA-Z0-9/,:.@ ]+$/;
+    let obj = req.body;
+    console.log(obj)
+    let arr = [...Object.values(obj)];
+    console.log(arr)
+    if (!arr.every((item) => regex.test(item))) {
+      // checks if any special characters were used
+      clientError(req, "Body does not meet requirements", 400);
+      return res.status(400).json({ msg: "Body Does not meet requirements" });
+    }
+    const { email, password } = req.body;
+    try {
+        const user = await db.oneOrNone('SELECT * FROM users WHERE email = $1', [email]);
+        if (user) {
+            const match = await bcrypt.compare(password, user.password);
+            if (match) {
+                res.send('Login Successful');
+            } else {
+                res.status(401).send('Invalid password');
+            }
+        } else {
+            res.status(401).send('Invalid Credentials');
+        }
+    } catch (error) {
+        console.error('Login error:', error);
+        res.status(500).send('Internal Server Error');
+    }
+});
 
 
 
