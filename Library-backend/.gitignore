@@ -1,5 +1,7 @@
 node_modules
 package-lock.json
+error.log
+combined.log
 combined.log
 error.log
 package.json

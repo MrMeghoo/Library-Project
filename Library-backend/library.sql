@@ -8,6 +8,8 @@ CREATE TABLE bookInventory (
     checkedOut BOOLEAN,
     image VARCHAR(200));
 
+    image VARCHAR(200));
+
 
 INSERT INTO bookInventory (
     name,
@@ -46,7 +48,6 @@ VALUES
 ('estradagabe1996@gmail.com', 'Gabe', 'Estrada', 27, TRUE, FALSE, null), 
 ('diddy@gmail.com', 'Sean', 'Combs', 54, FALSE, TRUE, null);
 
-
 CREATE TABLE quotes (
     id SERIAL PRIMARY KEY,
     quote VARCHAR (250),
@@ -61,24 +62,3 @@ VALUES
 ('"Why did you do all this for me?" he asked. "I don''t deserve it. I''ve never done anything for you." "You have been my friend," replied Charlotte. "That in itself is a tremendous thing, Mary Shelley"', 'E.B. White', 'Charlotte''s Web');
 
 
-CREATE TABLE bookRequest (
-    id SERIAL PRIMARY KEY,
-    name VARCHAR (150),
-    author VARCHAR (50),
-    yearPublished INTEGER,
-    genre TEXT [],
-    checkedOut BOOLEAN,
-    image VARCHAR(200));
-
-
-    INSERT INTO bookRequest (
-    name,
-    author,
-    yearPublished,
-    genre,
-    checkedOut,
-    image);
-
-
-VALUES 
-('Atomic Habits: An Easy and Proven Way to Build Good Habits and Break Bad Ones', 'James Clear', 2018, '{"Self-help book"}', FALSE, 'https://upload.wikimedia.org/wikipedia/commons/0/06/Atomic_habits.jpg'),
