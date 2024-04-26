@@ -2,12 +2,13 @@ const { kMaxLength } = require('buffer');
 const express = require('express')
 const pgp = require('pg-promise')();
 const winston = require('winston')
-
+const cors = require('cors');
 
 const app = express()
 const db = pgp('postgres://avdxxhsq:Ngu7xpaEW3m4SGx0lWBeOln7iq_WErpE@ziggy.db.elephantsql.com/avdxxhsq')
 
 app.use(express.json());
+app.use(cors());
 
 
 const logger = winston.createLogger({
@@ -52,55 +53,67 @@ app.all('/*', (req, res, next)=>{
 })
 
 
-app.get('/library', async function(req,res){
-    console.log(req.query)
+// app.get('/library', async function(req,res){
+//     console.log(req.query)
 
-    const getkeys = Object.keys(req.query)
+//     const getkeys = Object.keys(req.query)
 
-    //Check to make sure that only eamil or first and last name can be used as a query here. If anything other than that is inputed send back a 400 error code.
+//     //Check to make sure that only eamil or first and last name can be used as a query here. If anything other than that is inputed send back a 400 error code.
     
     
-    //Check to see if there is a body being inputed. If there is send back a 400 error. 
-    //Then if there is not a body check the length of the query to ensure that only one query can be used at a time.
+//     //Check to see if there is a body being inputed. If there is send back a 400 error. 
+//     //Then if there is not a body check the length of the query to ensure that only one query can be used at a time.
     
-    //then if neither email or first and last name are used and the query is undefined in the query return all users in the library in json format.
-    //then check to ensure that the query being put in is not a number or any dashes or slashes or any of the other puctuation junctions other than an @ and a period. 
-    //using Regex expression
+//     //then if neither email or first and last name are used and the query is undefined in the query return all users in the library in json format.
+//     //then check to ensure that the query being put in is not a number or any dashes or slashes or any of the other puctuation junctions other than an @ and a period. 
+//     //using Regex expression
 
-    //define a varible with a empty object to hold the responce if nothing is found it wil stay a empty object.
+//     //define a varible with a empty object to hold the responce if nothing is found it wil stay a empty object.
 
-    //This is where the SQL commands will go to get the information from the database that is specified in the query after the error checking.
+//     //This is where the SQL commands will go to get the information from the database that is specified in the query after the error checking.
 
     
+// })
+
+// app.get('/library', async function(req,res){
+//     console.log(req.query)
+
+//     const getkeys = Object.keys(req.query)
+
+//     //Check to make sure that only name and catagory can be used as a query here. If anything other than that is inputed send back a 400 error code.
+    
+    
+//     //Check to see if there is a body being inputed. If there is send back a 400 error. 
+//     //Then if there is not a body check the length of the query to ensure that only one query can be used at a time.
+    
+//     //then if neither name or catagory and query is undefined in the query return all books in the library in json format.
+//     //then check to ensure that the query being put in is not a number or any dashes or slashes or any of the other puctuation junctions.
+//     //using Regex expression
+
+//     //define a varible with a empty object to hold the responce if nothing is found it wil stay a empty object.
+
+//     //This is where the SQL commands will go to get the information from the database that is specified in the query after the error checking.
+
+
+    
+// })
+// app.get('/quotes', async function(req,res){
+//     let allQuotes = await db.many('SELECT * FROM quotes');
+//     res.json(allQuotes);
+// })
+
+app.get('/books', async function(req,res){
+    let allBooks = await db.many('SELECT * FROM bookInventory');
+    res.json(allBooks);
 })
-
 app.get('/library', async function(req,res){
-    console.log(req.query)
-
-    const getkeys = Object.keys(req.query)
-
-    //Check to make sure that only name and catagory can be used as a query here. If anything other than that is inputed send back a 400 error code.
-    
-    
-    //Check to see if there is a body being inputed. If there is send back a 400 error. 
-    //Then if there is not a body check the length of the query to ensure that only one query can be used at a time.
-    
-    //then if neither name or catagory and query is undefined in the query return all books in the library in json format.
-    //then check to ensure that the query being put in is not a number or any dashes or slashes or any of the other puctuation junctions.
-    //using Regex expression
-
-    //define a varible with a empty object to hold the responce if nothing is found it wil stay a empty object.
-
-    //This is where the SQL commands will go to get the information from the database that is specified in the query after the error checking.
-
-
-    
+    let allUsers = await db.many('SELECT * FROM users');
+    res.json(allUsers);
 })
 app.get('/quotes', async function(req,res){
     let allQuotes = await db.many('SELECT * FROM quotes');
     res.json(allQuotes);
 })
-
 
 
 //User info Account creation Post
@@ -191,8 +204,77 @@ app.post('/library', async function(req,res){
 
 })
 
-//Book request post
+//New Book post
 app.post('/books',async function(req,res){
+    //take reference from todo and pokemon project CRUD API's.
+    //Check if there is not anything in the body of the request.
+    //Check to see if the inputed tex in the requests body is not a object.
+    //Check if the name, author, yearPublished, genre, checkedout, and image are in the requested body thats being posted.
+    //Check to ensure name, author, and genre and image are a string which will allow image to be null as well. Chech if checkedout is a boolean and that year published is a number.
+    if(!req.body||typeof req.body !== 'object'||!('name' in req.body||!(typeof req.body.name !== 'string'||!('author' in req.body||!(typeof req.body.author !== 'string'||!('yearPublished' in req.body||!(typeof req.body.yearPublished !== 'number'||!('genre' in req.body||!(typeof req.body.genre !== 'string'||!('checkedOut' in req.body||(!typeof req.body.checkedOut !== 'boolean'||!('image' in req.body||!(typeof req.body.image !=='string'))))))))))))){
+        console.log(req.body)
+        clientError(req, "Missing Book Information", 400)
+        res.statusCode = 400
+        res.json({error: "Missing Book Information"})
+    }else{
+        //Define a regex to ensure name, author, and genre and image are letters only.
+        let regexbookName = /^[a-zA-Z0-9:{}\[\],.-\s]+$/
+        //Error check for null if any required value is null send back a 400 in responce
+        if(req.body.name === null){
+        clientError(req, "Book name required", 400)
+        res.statusCode = 400
+        res.json({error: "Book name required"})
+        }else if(!regexbookName.test(req.body.name)){
+        clientError(req, "Book name required", 400)
+        res.statusCode = 400
+        res.json({error: "Book name required"})
+        }else if(req.body.author === null){
+            clientError(req, "Author name required", 400)
+            res.statusCode = 400
+            res.json({error: "Author name required"})
+        }else if(!regexbookName.test(req.body.author)){
+            clientError(req, "Author name required", 400)
+            res.statusCode = 400
+            res.json({error: "Author name required"})
+        }else if(req.body.yearPublished === null){
+            clientError(req, "Year published required", 400)
+            res.statusCode = 400
+            res.json({error: "Year published required"})
+        }else if(req.body.genre === null){
+            clientError(req, "Genre is required", 400)
+            res.statusCode = 400
+            res.json({error: "Genre is required"})
+        }else if(!regexbookName.test(req.body.genre)){
+            clientError(req, "Genre is required", 400)
+            res.statusCode = 400
+            res.json({error: "Genre is required"})
+        }else if(req.body.checkedOut === null){
+            clientError(req, "Book has not been checked out", 400)
+            res.statusCode = 400
+            res.json({error: "Book has not been checked out"})
+        }else{
+            // if no errors are found the post code to post to the database will go here.
+            console.log(req.body)
+            const {
+                name,
+                author,
+                yearPublished,
+                genre,
+                checkedOut,
+                image
+            } = req.body
+
+            let bookRequest = await db.query('INSERT INTO bookInventory(name,author,yearPublished,genre,checkedOut,image) VALUES($1,$2,$3,$4,$5,$6) RETURNING *', [name,author,yearPublished,genre,checkedOut,image]);
+            res.json(bookRequest)
+            
+        }
+        
+    }
+    
+})
+
+//Book request post
+app.post('/request',async function(req,res){
     //take reference from todo and pokemon project CRUD API's.
     //Check if there is not anything in the body of the request.
     //Check to see if the inputed tex in the requests body is not a object.
@@ -251,7 +333,7 @@ app.post('/books',async function(req,res){
                 image
             } = req.body
 
-            let bookRequest = await db.query('INSERT INTO bookInventory(name,author,yearPublished,genre,checkedOut,image) VALUES($1,$2,$3,$4,$5,$6) RETURNING *', [name,author,yearPublished,genre,checkedOut,image]);
+            let bookRequest = await db.query('INSERT INTO bookRequest(name,author,yearPublished,genre,checkedOut,image) VALUES($1,$2,$3,$4,$5,$6) RETURNING *', [name,author,yearPublished,genre,checkedOut,image]);
             res.json(bookRequest)
             
         }
