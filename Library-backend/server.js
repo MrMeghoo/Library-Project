@@ -7,6 +7,7 @@ const winston = require('winston')
 const app = express()
 const db = pgp('postgres://avdxxhsq:Ngu7xpaEW3m4SGx0lWBeOln7iq_WErpE@ziggy.db.elephantsql.com/avdxxhsq')
 
+app.use(express.static(path.join(__dirname,'../Library-frontend')))
 
 const logger = winston.createLogger({
     level: 'info',

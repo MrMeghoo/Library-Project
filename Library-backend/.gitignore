@@ -1,4 +1,4 @@
-node_modules
-package-lock.json
-error.log
+node_modules,
+package-lock.json,
+error.log,
 combined.log
