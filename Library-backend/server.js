@@ -53,68 +53,6 @@ app.all('/*', (req, res, next)=>{
 })
 
 
-// app.get('/library', async function(req,res){
-//     console.log(req.query)
-
-//     const getkeys = Object.keys(req.query)
-
-//     //Check to make sure that only eamil or first and last name can be used as a query here. If anything other than that is inputed send back a 400 error code.
-
-
-//     //Check to see if there is a body being inputed. If there is send back a 400 error. 
-//     //Then if there is not a body check the length of the query to ensure that only one query can be used at a time.
-
-//     //then if neither email or first and last name are used and the query is undefined in the query return all users in the library in json format.
-//     //then check to ensure that the query being put in is not a number or any dashes or slashes or any of the other puctuation junctions other than an @ and a period. 
-//     //using Regex expression
-
-//     //define a varible with a empty object to hold the responce if nothing is found it wil stay a empty object.
-
-//     //This is where the SQL commands will go to get the information from the database that is specified in the query after the error checking.
-
-
-// })
-
-// app.get('/library', async function(req,res){
-//     console.log(req.query)
-
-//     const getkeys = Object.keys(req.query)
-
-//     //Check to make sure that only name and catagory can be used as a query here. If anything other than that is inputed send back a 400 error code.
-
-
-//     //Check to see if there is a body being inputed. If there is send back a 400 error. 
-//     //Then if there is not a body check the length of the query to ensure that only one query can be used at a time.
-
-//     //then if neither name or catagory and query is undefined in the query return all books in the library in json format.
-//     //then check to ensure that the query being put in is not a number or any dashes or slashes or any of the other puctuation junctions.
-//     //using Regex expression
-
-//     //define a varible with a empty object to hold the responce if nothing is found it wil stay a empty object.
-
-//     //This is where the SQL commands will go to get the information from the database that is specified in the query after the error checking.
-
-
-
-// })
-// app.get('/quotes', async function(req,res){
-//     let allQuotes = await db.many('SELECT * FROM quotes');
-//     res.json(allQuotes);
-// })
-
-app.get('/books', async function(req,res){
-    let allBooks = await db.many('SELECT * FROM bookInventory');
-    res.json(allBooks);
-})
-app.get('/library', async function(req,res){
-    let allUsers = await db.many('SELECT * FROM users');
-    res.json(allUsers);
-})
-app.get('/quotes', async function(req,res){
-    let allQuotes = await db.many('SELECT * FROM quotes');
-    res.json(allQuotes);
-})
-
 
 //User info Account creation Post
 app.post('/library', async function(req,res){
@@ -194,18 +132,22 @@ app.post('/library', async function(req,res){
             let userInfo = await db.query('INSERT INTO users(email,firstName,lastName,age,administrator,blackList,image) VALUES($1,$2,$3,$4,$5,$6,$7) RETURNING *', [email,firstName,lastName,age,administrator,blackList,image]);
             res.json(userInfo)
         }
-
+    
     }
+    
+    
+ 
 
-
-
-
+//     //then if neither email or first and last name are used and the query is undefined in the query return all users in the library in json format.
+//     //then check to ensure that the query being put in is not a number or any dashes or slashes or any of the other puctuation junctions other than an @ and a period. 
+//     //using Regex expression
 
 
 })
 
 //New Book post
 app.post('/books',async function(req,res){
+    res.set('Access-Control-Allow-Origin', '*');
     //take reference from todo and pokemon project CRUD API's.
     //Check if there is not anything in the body of the request.
     //Check to see if the inputed tex in the requests body is not a object.
@@ -248,10 +190,6 @@ app.post('/books',async function(req,res){
             clientError(req, "Genre is required", 400)
             res.statusCode = 400
             res.json({error: "Genre is required"})
-        }else if(req.body.checkedOut === null){
-            clientError(req, "Book has not been checked out", 400)
-            res.statusCode = 400
-            res.json({error: "Book has not been checked out"})
         }else{
             // if no errors are found the post code to post to the database will go here.
             console.log(req.body)
@@ -259,18 +197,16 @@ app.post('/books',async function(req,res){
                 name,
                 author,
                 yearPublished,
-                genre,
-                checkedOut,
-                image
+                genre
             } = req.body
 
-            let bookRequest = await db.query('INSERT INTO bookInventory(name,author,yearPublished,genre,checkedOut,image) VALUES($1,$2,$3,$4,$5,$6) RETURNING *', [name,author,yearPublished,genre,checkedOut,image]);
+            let bookRequest = await db.query('INSERT INTO bookInventory(name,author,yearPublished,genre) VALUES($1,$2,$3,$4) RETURNING *', [name,author,yearPublished,genre,checkedOut,image]);
             res.json(bookRequest)
-
+            
         }
-
+        
     }
-
+    
 })
 
 //Book request post
@@ -335,12 +271,13 @@ app.post('/request',async function(req,res){
 
             let bookRequest = await db.query('INSERT INTO bookRequest(name,author,yearPublished,genre,checkedOut,image) VALUES($1,$2,$3,$4,$5,$6) RETURNING *', [name,author,yearPublished,genre,checkedOut,image]);
             res.json(bookRequest)
-
+            
         }
-
+        
     }
-
+    
 })
+
 
 app.post('/quotes', async function(req,res){
     //take reference from todo and pokemon project CRUD API's.
@@ -393,6 +330,40 @@ app.post('/quotes', async function(req,res){
         let postaQuote = await db.query('INSERT INTO quotes(quote,author,book) VALUES($1,$2,$3) RETURNING *', [quote,author,book]);
         res.json(postaQuote)
     }
+
+
+
+//Book info update endpoint by 
+app.patch('/books/:name', async function(req,res){
+    //take reference from both todo and pokemon project CRUD API's.
+    //Create a const object with valid feilds to check if their in the requests body.
+    //define a variable to hold the req.params.name
+    const bookName = req.params.name
+
+    //Define a variable to hold all of the valid fields in a array that can be used in the body of the patch request.
+    const {checkedOut} = req.body
+    console.log({checkedOut})
+//Check to ensure that there are no more than 0 invalid fields in the body of the request if todo reference is used you can use the ivalid fields varaible to do this.
+    //if a invalid field is found send back a 400 in response 
+    //if there are no invalid fields check the fields one of which will be checkedout ensure that its its not undefined and if it is not undefined ensure that it is a boolean look at todo CRUD for reference.
+    //Determine if the checked out inside the req.body is a boolean and if its not send a 400 in response
+    if(typeof checkedOut !== 'boolean'){
+        clientError(req, "Error has occured whlie Checking Out designated Book", 400);
+        res.statusCode = 400;
+        res.json({error: "Error has occured whlie Checking Out designated Book"});
+    }try{
+        //if no errors were found continue with the code that will update the database with the correct fields.
+        let checkoutBook = await db.query('UPDATE bookInventory SET checkedOut = $1 WHERE name = $2 RETURNING *', [checkedOut,bookName]);
+        res.json(checkoutBook)
+    }catch(error){
+        console.error("Error has occured checking out book", error);
+        clientError(req, "Error has occured checking out book", 400);
+        res.statusCode = 400;
+        res.json({error: "Error has occured checking out book"});
+
+    }
+    
+
 
 
 }
@@ -481,6 +452,9 @@ app.patch('/books/:name', async function(req,res){
     }
 
 
+    //if a id that does not yet exist is inserted as a query send back a 400 in responce.
+
+
 
 
 
@@ -496,6 +470,7 @@ app.delete('/library/:id', async function(req,res){
     //if no errors are found continue with the code to delete a users account from the database.
 
 })
+
 
 app.delete('/library/:name', async function(req,res){
     //take reference from both todo and pokemon project CRUD API's.
