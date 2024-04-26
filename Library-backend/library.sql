@@ -79,4 +79,3 @@ VALUES
 ("Beware; for I am fearless, and therefore powerful.", "Mary Shelley", "Frankenstein"),
 (`Why did you do all this for me?’ he asked. ‘I don’t deserve it. I’ve never done anything for you.’ ‘You have been my friend,’ replied Charlotte. ‘That in itself is a tremendous thing", "Mary Shelley"`, "E.B. White", "Charlotte’s Web");
 
-
