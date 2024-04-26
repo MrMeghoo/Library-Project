@@ -84,17 +84,3 @@ VALUES
 ("Beware; for I am fearless, and therefore powerful.", "Mary Shelley", "Frankenstein"),
 (`Why did you do all this for me?’ he asked. ‘I don’t deserve it. I’ve never done anything for you.’ ‘You have been my friend,’ replied Charlotte. ‘That in itself is a tremendous thing", "Mary Shelley"`, "E.B. White", "Charlotte’s Web");
 
-
-
-
-CREATE TABLE users (
-    id SERIAL PRIMARY KEY,
-    email UNIQUE VARCHAR (100),
-    firstName VARCHAR (50),
-    lastName VARCHAR (50),
-    password VARCHAR (250),
-    age INTEGER,
-    administrator BOOLEAN,
-    blackList BOOLEAN,
-    image VARCHAR(200)
-);
