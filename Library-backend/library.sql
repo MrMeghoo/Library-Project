@@ -30,6 +30,11 @@ VALUES
 ('test book 4', 'Franklin W. Dixon', 1959, '{"Mystery", "Adventure Fiction"}', FALSE, 'https://m.media-amazon.com/images/I/61UcIuu5CWL._SL1200_.jpg'),
 ('test book 5', 'David Goggins ', 2018, '{"Self-help book"}', FALSE, 'https://m.media-amazon.com/images/I/61pDNU9qEGL._SL1360_.jpg');
 
+
+
+
+
+
 CREATE TABLE users (
     id SERIAL PRIMARY KEY,
     email UNIQUE VARCHAR (100),
