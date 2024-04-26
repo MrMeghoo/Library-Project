@@ -4,7 +4,8 @@
   "description": "House of Pages backend Project",
   "main": "server.js",
   "scripts": {
-    "start": "nodemon server.js"
+    "start": "nodemon server.js",
+    "seed": "psql -U corcoding -d postgres -a -f library.sql"
   },
   "author": "Team 3",
   "license": "ISC",

@@ -121,12 +121,25 @@ try{
 await db.none("INSERT INTO users (email, firstName, lastName, password) VALUES ($1, $2, $3, $4)",
 [email, firstName, lastName, hashtedPassword])
 res.redirect("/library/login")
-}catch(e){
-console.log(e)
+}catch(error){
+if(error.code === "23505"){
+    clientError(req, "Email already exist", 400);
+    res.status(400).json({ msg: "Email already exist" })
+}
 }
 })
 
 app.post('/library/login', async function(req, res) {
+    const regex = /^[a-zA-Z0-9/,:.@ ]+$/;
+    let obj = req.body;
+    console.log(obj)
+    let arr = [...Object.values(obj)];
+    console.log(arr)
+    if (!arr.every((item) => regex.test(item))) {
+      // checks if any special characters were used
+      clientError(req, "Body does not meet requirements", 400);
+      return res.status(400).json({ msg: "Body Does not meet requirements" });
+    }
     const { email, password } = req.body;
     try {
         const user = await db.oneOrNone('SELECT * FROM users WHERE email = $1', [email]);
