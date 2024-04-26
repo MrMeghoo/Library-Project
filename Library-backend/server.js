@@ -59,11 +59,11 @@ app.all('/*', (req, res, next)=>{
 //     const getkeys = Object.keys(req.query)
 
 //     //Check to make sure that only eamil or first and last name can be used as a query here. If anything other than that is inputed send back a 400 error code.
-    
-    
+
+
 //     //Check to see if there is a body being inputed. If there is send back a 400 error. 
 //     //Then if there is not a body check the length of the query to ensure that only one query can be used at a time.
-    
+
 //     //then if neither email or first and last name are used and the query is undefined in the query return all users in the library in json format.
 //     //then check to ensure that the query being put in is not a number or any dashes or slashes or any of the other puctuation junctions other than an @ and a period. 
 //     //using Regex expression
@@ -72,7 +72,7 @@ app.all('/*', (req, res, next)=>{
 
 //     //This is where the SQL commands will go to get the information from the database that is specified in the query after the error checking.
 
-    
+
 // })
 
 // app.get('/library', async function(req,res){
@@ -81,11 +81,11 @@ app.all('/*', (req, res, next)=>{
 //     const getkeys = Object.keys(req.query)
 
 //     //Check to make sure that only name and catagory can be used as a query here. If anything other than that is inputed send back a 400 error code.
-    
-    
+
+
 //     //Check to see if there is a body being inputed. If there is send back a 400 error. 
 //     //Then if there is not a body check the length of the query to ensure that only one query can be used at a time.
-    
+
 //     //then if neither name or catagory and query is undefined in the query return all books in the library in json format.
 //     //then check to ensure that the query being put in is not a number or any dashes or slashes or any of the other puctuation junctions.
 //     //using Regex expression
@@ -95,7 +95,7 @@ app.all('/*', (req, res, next)=>{
 //     //This is where the SQL commands will go to get the information from the database that is specified in the query after the error checking.
 
 
-    
+
 // })
 // app.get('/quotes', async function(req,res){
 //     let allQuotes = await db.many('SELECT * FROM quotes');
@@ -194,11 +194,11 @@ app.post('/library', async function(req,res){
             let userInfo = await db.query('INSERT INTO users(email,firstName,lastName,age,administrator,blackList,image) VALUES($1,$2,$3,$4,$5,$6,$7) RETURNING *', [email,firstName,lastName,age,administrator,blackList,image]);
             res.json(userInfo)
         }
-    
+
     }
-    
-    
-    
+
+
+
 
 
 
@@ -266,11 +266,11 @@ app.post('/books',async function(req,res){
 
             let bookRequest = await db.query('INSERT INTO bookInventory(name,author,yearPublished,genre,checkedOut,image) VALUES($1,$2,$3,$4,$5,$6) RETURNING *', [name,author,yearPublished,genre,checkedOut,image]);
             res.json(bookRequest)
-            
+
         }
-        
+
     }
-    
+
 })
 
 //Book request post
@@ -335,11 +335,11 @@ app.post('/request',async function(req,res){
 
             let bookRequest = await db.query('INSERT INTO bookRequest(name,author,yearPublished,genre,checkedOut,image) VALUES($1,$2,$3,$4,$5,$6) RETURNING *', [name,author,yearPublished,genre,checkedOut,image]);
             res.json(bookRequest)
-            
+
         }
-        
+
     }
-    
+
 })
 
 app.post('/quotes', async function(req,res){
@@ -397,11 +397,11 @@ app.post('/quotes', async function(req,res){
 
 }
 
-    
 
-    
 
-    
+
+
+
 })
 
 //Did not work Properly
@@ -438,11 +438,11 @@ app.patch('/library/:id', async function(req,res){
         //try with catch allows the code to be tested without crashing by running it with try and catching any errors before they crash the server
     }try{
             //if no errors were found continue with the code that will update the database with the correct fields.
-            
+
             let updateBlacklist = await db.query('UPDATE users SET blackList = $1 WHERE id = $2 RETURNING *', [blackList, id]);
             res.json(updateBlacklist);
 
-            
+
     }catch (error){
         console.error("Error updating Blacklist", error);
         clientError(req, "Blacklist error has occured", 400);
@@ -479,11 +479,11 @@ app.patch('/books/:name', async function(req,res){
         res.statusCode = 400;
         res.json({error: "Error has occured checking out book"});
     }
-    
 
-    
 
-    
+
+
+
 })
 
 //User info delete endpoint
@@ -494,7 +494,7 @@ app.delete('/library/:id', async function(req,res){
     //if a id that does not yet exist is inserted as a query send back a 400 in responce.
 
     //if no errors are found continue with the code to delete a users account from the database.
-    
+
 })
 
 app.delete('/library/:name', async function(req,res){
