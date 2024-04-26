@@ -53,5 +53,3 @@ Packages installed:
 This project is licensed under the [MIT License](LICENSE).
 
 The MIT License is a permissive open-source license that allows you to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the software, subject to certain conditions. Please see the [LICENSE](LICENSE) file for more details.
-
-
