@@ -1,14 +1,44 @@
+
+
 const express = require('express')
+const path = require('path');
 const pgp = require('pg-promise')();
 const winston = require('winston')
-
-
+const swaggerUI=require('swagger-ui-express');
+const YAML=require('yamljs');
+const swaggerDocument=YAML.load('../Library-frontend/api.yaml');
 const app = express()
-const db = pgp('postgres://avdxxhsq:Ngu7xpaEW3m4SGx0lWBeOln7iq_WErpE@ziggy.db.elephantsql.com/avdxxhsq')
-const path = require('path');
+const db = pgp('postgres://corcoding@localhost:5432/postgres')
 const bcrypt = require('bcrypt');
 const { name } = require('ejs');
+const initializePassport = require('./passport-config')
+const flash =require('express-flash')
+const session = require('express-session')
+const passport = require('passport')
+
+
+
+
+initializePassport(
+    passport,
+    email => db.oneOrNone('SELECT * FROM users WHERE email = $1',email),
+    id => db.oneOrNone('SELECT * FROM users WHERE id = $1', id)
+);
+
+
+
+
 app.use(express.static(path.join(__dirname,'../Library-frontend')))
+app.use(flash())
+app.use(session({
+    secret:
+     'mysecret',
+    resave: false, // We wont resave the session variable if nothing is changed
+    saveUninitialized: false
+}));
+app.use(passport.initialize())
+app.use(passport.session())
+app.use("api-docs",swaggerUI.serve,swaggerUI.setup(swaggerDocument))
 app.use(express.json());
 app.use(express.urlencoded({ extended: true}));
 app.set('view engine', 'ejs');
@@ -53,60 +83,39 @@ app.all('/*', (req, res, next)=>{
     });
     next()
 })
-//Check to make sure that only name and catagory can be used as a query here. If anything other than that is inputed send back a 400 error code.
 
-
-//Check to see if there is a body being inputed. If there is send back a 400 error. 
-//Then if there is not a body check the length of the query to ensure that only one query can be used at a time.
-
-//then if neither name or catagory and query is undefined in the query return all books in the library in json format.
-//then check to ensure that the query being put in is not a number or any dashes or slashes or any of the other puctuation junctions.
-//using Regex expression
-
-//define a varible with a empty object to hold the responce if nothing is found it wil stay a empty object.
-
-//This is where the SQL commands will go to get the information from the database that is specified in the query after the error checking.
-
-app.get('/library', async function(req,res){
-    let allBooks = await db.many('SELECT * FROM bookInventory');
-    res.json(allBooks);
-})
-app.get('/users', async function(req,res){
-    let allUsers = await db.many('SELECT * FROM users');
-    res.json(allUsers);
-})
-app.get('/quotes', async function(req,res){
-    let allQuotes = await db.many('SELECT * FROM quotes');
-    res.json(allQuotes);
-})
 
 app.get('/library/login', async function(req,res){
-    // if(Object.keys(req.body).length != 0) {
-    //     clientError(req, "Request body is not permitted", 400);
-    //     // check if a body was provided in the request
-        // res.status(400).json({
-        //     error: "Request body is not permitted"
-        // });
+    if(Object.keys(req.body).length > 0){
+        res.status(400).json({message:"Body not permitted"})
+    }
         try{
     res.render("login.ejs")
         }catch(e){
             console.log(e)
             res.status(500).json({msg:'Internal Server error'})
         }
-    // }
 
 })
 
 app.get('/library/signup', async function(req,res){
+    if(Object.keys(req.body).length > 0){
+        res.status(400).json({message:"Body not permitted"})
+    }
+    try{
     res.render("signup.ejs")
+    }catch(e){
+        console.log(e)
+        res.status(500).json({msg:'Internal Server error'})
+    }
 })
-//User info Account creation Post
+
+
 app.post('/library/signup', async function(req,res){
     const regex = /^[a-zA-Z0-9/,:.@ ]+$/;
     let obj = req.body;
     console.log(obj)
     let arr = [...Object.values(obj)];
-    console.log(arr)
     if (!arr.every((item) => regex.test(item))) {
       // checks if any special characters were used
       clientError(req, "Body does not meet requirements", 400);
@@ -128,36 +137,41 @@ if(error.code === "23505"){
 }
 }
 })
+app.post('/library/login', passport.authenticate("local",{
+    successRedirect: "/",
+    failureRedirect: "/library/login",
+    failureFlash: true
+}))
 
-app.post('/library/login', async function(req, res) {
-    const regex = /^[a-zA-Z0-9/,:.@ ]+$/;
-    let obj = req.body;
-    console.log(obj)
-    let arr = [...Object.values(obj)];
-    console.log(arr)
-    if (!arr.every((item) => regex.test(item))) {
-      // checks if any special characters were used
-      clientError(req, "Body does not meet requirements", 400);
-      return res.status(400).json({ msg: "Body Does not meet requirements" });
-    }
-    const { email, password } = req.body;
-    try {
-        const user = await db.oneOrNone('SELECT * FROM users WHERE email = $1', [email]);
-        if (user) {
-            const match = await bcrypt.compare(password, user.password);
-            if (match) {
-                res.send('Login Successful');
-            } else {
-                res.status(401).send('Invalid Credentials');
-            }
-        } else {
-            res.status(401).send('Invalid Credentials');
-        }
-    } catch (error) {
-        console.error('Login error:', error);
-        res.status(500).send('Internal Server Error');
-    }
-});
+// app.post('/library/login', async function(req, res) {
+//     const regex = /^[a-zA-Z0-9/,:.@ ]+$/;
+//     let obj = req.body;
+//     console.log(obj)
+//     let arr = [...Object.values(obj)];
+//     console.log(arr)
+//     if (!arr.every((item) => regex.test(item))) {
+//       // checks if any special characters were used
+//       clientError(req, "Body does not meet requirements", 400);
+//       return res.status(400).json({ msg: "Body Does not meet requirements" });
+//     }
+//     const { email, password } = req.body;
+//     try {
+//         const user = await db.oneOrNone('SELECT * FROM users WHERE email = $1', [email]);
+//         if (user) {
+//             const match = await bcrypt.compare(password, user.password);
+//             if (match) {
+//                 res.send('Login Successful');
+//             } else {
+//                 res.status(401).send('Invalid password');
+//             }
+//         } else {
+//             res.status(401).send('Invalid Credentials');
+//         }
+//     } catch (error) {
+//         console.error('Login error:', error);
+//         res.status(500).send('Internal Server Error');
+//     }
+// });
 
 
 
