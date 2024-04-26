@@ -1,3 +1,4 @@
+require("dotenv").config()
 const { kMaxLength } = require('buffer');
 const express = require('express')
 const path = require('path');
