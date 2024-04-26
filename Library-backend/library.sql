@@ -20,20 +20,10 @@ INSERT INTO bookInventory (
 
 VALUES 
 ('Atomic Habits: An Easy and Proven Way to Build Good Habits and Break Bad Ones', 'James Clear', 2018, '{"Self-help book"}', FALSE, 'https://upload.wikimedia.org/wikipedia/commons/0/06/Atomic_habits.jpg'),
-('Harry Potter and the Sorcerer''s Stone', 'J. K. Rowling', 1997, '{"Novel", "Fantasy Fiction", "High fantasy"}', FALSE, 'https://media.harrypotterfanzone.com/sorcerers-stone-us-childrens-edition.jpg'),
-('Bud, Not Buddy', 'Paul Curtis', 1999, '{"Historical Fiction", "Young Adult Literature", "Historical Novel"}', FALSE, 'https://m.media-amazon.com/images/I/81iq-CvU+yL._SL1500_.jpg'),
-('Hardy Boys 01: the Tower Tresasure', 'Franklin W. Dixon', 1959, '{"Mystery", "Adventure Fiction"}', FALSE, 'https://m.media-amazon.com/images/I/61UcIuu5CWL._SL1200_.jpg'),
-('Can''t Hurt Me: Master Your Mind and Defy the Odds', 'David Goggins ', 2018, '{"Self-help book"}', FALSE, 'https://m.media-amazon.com/images/I/61pDNU9qEGL._SL1360_.jpg'),
-('Test book 1', 'James Clear', 2018, '{"Self-help book"}', FALSE, 'https://upload.wikimedia.org/wikipedia/commons/0/06/Atomic_habits.jpg'),
-('test book 2', 'Gabe Estrada', 1997, '{"Novel", "Fantasy Fiction", "High fantasy"}', FALSE, 'https://media.harrypotterfanzone.com/sorcerers-stone-us-childrens-edition.jpg'),
-('test book 3', 'Paul Curtis', 1999, '{"Historical Fiction", "Young Adult Literature", "Historical Novel"}', FALSE, 'https://m.media-amazon.com/images/I/81iq-CvU+yL._SL1500_.jpg'),
-('test book 4', 'Franklin W. Dixon', 1959, '{"Mystery", "Adventure Fiction"}', FALSE, 'https://m.media-amazon.com/images/I/61UcIuu5CWL._SL1200_.jpg'),
-('test book 5', 'David Goggins ', 2018, '{"Self-help book"}', FALSE, 'https://m.media-amazon.com/images/I/61pDNU9qEGL._SL1360_.jpg');
-
-
-
-
-
+("Harry Potter and the Sorcerer's Stone", 'J. K. Rowling', 1997, '{"Novel", "Fantasy Fiction", "High fantasy"}', FALSE, 'https://media.harrypotterfanzone.com/sorcerers-stone-us-childrens-edition.jpg'),
+("Bud, Not Buddy", 'Paul Curtis', 1999, '{"Historical Fiction", "Young Adult Literature", ", "Historical Novel"}', FALSE, 'https://m.media-amazon.com/images/I/81iq-CvU+yL._SL1500_.jpg'),
+("Hardy Boys 01: the Tower Tresasure", 'Franklin W. Dixon', 1959, '{"Mystery", "Adventure Fiction"}', FALSE, 'https://m.media-amazon.com/images/I/61UcIuu5CWL._SL1200_.jpg'),
+("Can't Hurt Me: Master Your Mind and Defy the Odds", 'David Goggins ', 2018, '{"Self-help book"}', FALSE, 'https://m.media-amazon.com/images/I/61pDNU9qEGL._SL1360_.jpg');
 
 CREATE TABLE users (
     id SERIAL PRIMARY KEY,
