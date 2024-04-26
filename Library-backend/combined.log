@@ -6119,3 +6119,7 @@
 {"body":{},"endpoint":"/books","ip":"::1","level":"info","method":"GET","path_parameters":{"0":"books"},"query":{},"service":"user-service","timestamp":"2024-04-26T02:11:17.621Z"}
 {"body":{},"endpoint":"/request","ip":"::1","level":"info","method":"GET","path_parameters":{"0":"request"},"query":{},"service":"user-service","timestamp":"2024-04-26T02:17:37.335Z"}
 {"body":{},"endpoint":"/books","ip":"::1","level":"info","method":"GET","path_parameters":{"0":"books"},"query":{},"service":"user-service","timestamp":"2024-04-26T02:18:37.790Z"}
+{"body":{},"endpoint":"/books","ip":"::ffff:127.0.0.1","level":"info","method":"GET","path_parameters":{"0":"books"},"query":{},"service":"user-service","timestamp":"2024-04-26T02:30:24.546Z"}
+{"body":{},"endpoint":"/books","ip":"::ffff:127.0.0.1","level":"info","method":"GET","path_parameters":{"0":"books"},"query":{},"service":"user-service","timestamp":"2024-04-26T02:30:25.070Z"}
+{"body":{},"endpoint":"/books","ip":"::ffff:127.0.0.1","level":"info","method":"GET","path_parameters":{"0":"books"},"query":{},"service":"user-service","timestamp":"2024-04-26T02:32:41.138Z"}
+{"body":{},"endpoint":"/books","ip":"::1","level":"info","method":"GET","path_parameters":{"0":"books"},"query":{},"service":"user-service","timestamp":"2024-04-26T02:44:55.287Z"}
