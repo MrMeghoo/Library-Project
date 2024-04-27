@@ -11,9 +11,37 @@
   rel="stylesheet"
   href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
 />
-    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sedan:ital@0;1&display=swap" rel="stylesheet">
 </head>
-<body>
+<body 
+onload="
+trending('slide1', 0); 
+trending('slide2', 1); 
+trending('slide3', 2);
+trending('slide4', 3);
+trending('slide5', 4);
+trending('slide6', 5);
+trending('slide7', 6);
+trending('slide8', 7);
+trending('slide9', 8);
+
+staffPicks('staff1', 0); 
+staffPicks('staff2', 1); 
+staffPicks('staff3', 2);
+staffPicks('staff4', 3);
+staffPicks('staff5', 4);
+staffPicks('staff6', 5);
+staffPicks('staff7', 6);
+staffPicks('staff8', 7);
+staffPicks('staff9', 8);
+loadQuotes()
+";
+
+
+>
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
         <div class="container-fluid">
 
@@ -42,11 +70,11 @@
               <li class="nav-item">
               </li>
               <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="#">Login</a>
+                <a class="nav-link active" aria-current="page" href="/library/login">Login</a>
               </li>
               <li class="nav-item">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="#">Sign up</a>
+                    <a class="nav-link active" aria-current="page" href="/library/signup">Sign up</a>
                   </li>
                   <li class="nav-item">
             </ul>
@@ -57,22 +85,22 @@
     </div>
 <div class ="topContainer">
     <img src="../images/hOUSE OF PAGES.png">
-    <div id = "quotes">
-        quotes
-      </div>
+    <div  class="quotes"
+    id="quotes">
+    </div>
   </div>
-  <center><h2>Trending Books</h2></center>
+<center><h2>Trending Books</h2></center>
   <div class="swiper mySwiper">
     <div class="swiper-wrapper">
-      <div class="swiper-slide">Slide 1</div>
-      <div class="swiper-slide">Slide 2</div>
-      <div class="swiper-slide">Slide 3</div>
-      <div class="swiper-slide">Slide 4</div>
-      <div class="swiper-slide">Slide 5</div>
-      <div class="swiper-slide">Slide 6</div>
-      <div class="swiper-slide">Slide 7</div>
-      <div class="swiper-slide">Slide 8</div>
-      <div class="swiper-slide">Slide 9</div>
+      <div class="swiper-slide displayBook" id="slide1"></div>
+      <div class="swiper-slide displayBook" id="slide2"></div>
+      <div class="swiper-slide displayBook" id="slide3"></div>
+      <div class="swiper-slide displayBook" id="slide4"></div>
+      <div class="swiper-slide displayBook" id="slide5"></div>
+      <div class="swiper-slide displayBook" id="slide6"></div>
+      <div class="swiper-slide displayBook" id="slide7"></div>
+      <div class="swiper-slide displayBook" id="slide8"></div>
+      <div class="swiper-slide displayBook" id="slide9"></div>
     </div>
     <div class="swiper-button-prev"></div>
     <div class="swiper-button-next"></div>
@@ -81,15 +109,15 @@
   <center><h2>Our Picks</h2></center>
   <div class="swiper mySwiper">
     <div class="swiper-wrapper">
-      <div class="swiper-slide">Slide 1</div>
-      <div class="swiper-slide">Slide 2</div>
-      <div class="swiper-slide">Slide 3</div>
-      <div class="swiper-slide">Slide 4</div>
-      <div class="swiper-slide">Slide 5</div>
-      <div class="swiper-slide">Slide 6</div>
-      <div class="swiper-slide">Slide 7</div>
-      <div class="swiper-slide">Slide 8</div>
-      <div class="swiper-slide">Slide 9</div>
+      <div class="swiper-slide" id="staff1" onclick="location.href='pages.html'; soloBook('bookCover', 2)"></div>
+      <div class="swiper-slide" id="staff2" onclick="location.href='login.html';"></div>
+      <div class="swiper-slide" id="staff3" onclick="location.href='login.html';"></div>
+      <div class="swiper-slide" id="staff4" onclick="location.href='login.html';"></div>
+      <div class="swiper-slide" id="staff5" onclick="location.href='login.html';"></div>
+      <div class="swiper-slide" id="staff6" onclick="location.href='login.html';"></div>
+      <div class="swiper-slide" id="staff7" onclick="location.href='login.html';"></div>
+      <div class="swiper-slide" id="staff8" onclick="location.href='login.html';"></div>
+      <div class="swiper-slide" id="staff9" onclick="location.href='login.html';"></div>
     </div>
     <div class="swiper-button-prev"></div>
     <div class="swiper-button-next"></div>
@@ -100,5 +128,6 @@
   <!-- Swiper js -->
   <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
   <script src="script.js"></script>
+
 </body>
 </html>
