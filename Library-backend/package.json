@@ -4,18 +4,35 @@
   "description": "House of Pages backend Project",
   "main": "server.js",
   "scripts": {
+    "start": "nodemon server.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon index.js",
-    "seed": "",
-    "start": ""
+    "dev": "nodemon index.js"
   },
   "author": "Team 3",
   "license": "ISC",
   "dependencies": {
+<<<<<<< HEAD
     "cors": "^2.8.5",
+=======
+    "bcrypt": "^5.1.1",
+    "cors": "^2.8.5",
+    "ejs": "^3.1.10",
+>>>>>>> main
     "express": "^4.19.2",
+    "express-flash": "^0.0.2",
+    "express-session": "^1.18.0",
+    "flash": "^1.1.0",
+    "local": "^0.3.3",
     "nodemon": "^3.1.0",
+    "passport": "^0.7.0",
+    "passport-local": "^1.0.0",
     "pg-promise": "^11.6.0",
-    "winston": "^3.13.0"
+    "session": "^0.1.0",
+    "swagger-ui-express": "^5.0.0",
+    "winston": "^3.13.0",
+    "yamljs": "^0.3.0"
+  },
+  "devDependencies": {
+    "dotenv": "^16.4.5"
   }
 }

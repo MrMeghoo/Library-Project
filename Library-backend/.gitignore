@@ -1,4 +1,12 @@
+<<<<<<< HEAD
 node_modules,
 package-lock.json,
 error.log,
 combined.log
+=======
+node_modules
+package-lock.json
+error.log
+combined.log
+.env
+>>>>>>> main

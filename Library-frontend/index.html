@@ -18,25 +18,25 @@
 </head>
 <body 
 onload="
-bookCover('slide1', 0); 
-bookCover('slide2', 1); 
-bookCover('slide3', 2);
-bookCover('slide4', 3);
-bookCover('slide5', 4);
-bookCover('slide6', 5);
-bookCover('slide7', 6);
-bookCover('slide8', 7);
-bookCover('slide9', 8);
+trending('slide1', 0); 
+trending('slide2', 1); 
+trending('slide3', 2);
+trending('slide4', 3);
+trending('slide5', 4);
+trending('slide6', 5);
+trending('slide7', 6);
+trending('slide8', 7);
+trending('slide9', 8);
 
-bookCover('staff1', 0); 
-bookCover('staff2', 9); 
-bookCover('staff3', 0);
-bookCover('staff4', 1);
-bookCover('staff5', 2);
-bookCover('staff6', 3);
-bookCover('staff7', 4);
-bookCover('staff8', 5);
-bookCover('staff9', 6);
+staffPicks('staff1', 0); 
+staffPicks('staff2', 1); 
+staffPicks('staff3', 2);
+staffPicks('staff4', 3);
+staffPicks('staff5', 4);
+staffPicks('staff6', 5);
+staffPicks('staff7', 6);
+staffPicks('staff8', 7);
+staffPicks('staff9', 8);
 loadQuotes()
 ";
 
@@ -70,11 +70,11 @@ loadQuotes()
               <li class="nav-item">
               </li>
               <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="#">Login</a>
+                <a class="nav-link active" aria-current="page" href="/library/login">Login</a>
               </li>
               <li class="nav-item">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="#">Sign up</a>
+                    <a class="nav-link active" aria-current="page" href="/library/signup">Sign up</a>
                   </li>
                   <li class="nav-item">
             </ul>
@@ -92,15 +92,15 @@ loadQuotes()
 <center><h2>Trending Books</h2></center>
   <div class="swiper mySwiper">
     <div class="swiper-wrapper">
-      <div class="swiper-slide" id="slide1" onclick="location.href='login.html';"></div>
-      <div class="swiper-slide" id="slide2" onclick="location.href='login.html';"></div>
-      <div class="swiper-slide" id="slide3" onclick="location.href='login.html';"></div>
-      <div class="swiper-slide" id="slide4" onclick="location.href='login.html';"></div>
-      <div class="swiper-slide" id="slide5" onclick="location.href='login.html';"></div>
-      <div class="swiper-slide" id="slide6" onclick="location.href='login.html';"></div>
-      <div class="swiper-slide" id="slide7" onclick="location.href='login.html';"></div>
-      <div class="swiper-slide" id="slide8" onclick="location.href='login.html';"></div>
-      <div class="swiper-slide" id="slide9" onclick="location.href='login.html';"></div>
+      <div class="swiper-slide displayBook" id="slide1"></div>
+      <div class="swiper-slide displayBook" id="slide2"></div>
+      <div class="swiper-slide displayBook" id="slide3"></div>
+      <div class="swiper-slide displayBook" id="slide4"></div>
+      <div class="swiper-slide displayBook" id="slide5"></div>
+      <div class="swiper-slide displayBook" id="slide6"></div>
+      <div class="swiper-slide displayBook" id="slide7"></div>
+      <div class="swiper-slide displayBook" id="slide8"></div>
+      <div class="swiper-slide displayBook" id="slide9"></div>
     </div>
     <div class="swiper-button-prev"></div>
     <div class="swiper-button-next"></div>
@@ -109,7 +109,7 @@ loadQuotes()
   <center><h2>Our Picks</h2></center>
   <div class="swiper mySwiper">
     <div class="swiper-wrapper">
-      <div class="swiper-slide" id="staff1" onclick="location.href='login.html';"></div>
+      <div class="swiper-slide" id="staff1" onclick="location.href='pages.html'; soloBook('bookCover', 2)"></div>
       <div class="swiper-slide" id="staff2" onclick="location.href='login.html';"></div>
       <div class="swiper-slide" id="staff3" onclick="location.href='login.html';"></div>
       <div class="swiper-slide" id="staff4" onclick="location.href='login.html';"></div>
