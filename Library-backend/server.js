@@ -1,20 +1,22 @@
 require("dotenv").config()
 const { kMaxLength } = require('buffer');
-const express = require('express')
+const express = require('express');
+const cors = require('cors');
 const path = require('path');
 const pgp = require('pg-promise')();
-const winston = require('winston')
-const cors = require('cors');const swaggerUI=require('swagger-ui-express');
+const winston = require('winston');
+const swaggerUI = require('swagger-ui-express');
 const YAML=require('yamljs');
-const swaggerDocument=YAML.load('../Library-frontend/api.yaml');
-const app = express()
-const db = pgp('postgres://corcoding@localhost:5432/postgres')
+const swaggerDocument = YAML.load(path.join(__dirname, '../Library-frontend/api.yaml'));
+const app = express();
+const db = pgp('postgres://corcoding@localhost:5432/postgres');
 const bcrypt = require('bcrypt');
 const { name } = require('ejs');
-const initializePassport = require('./passport-config')
-const flash =require('express-flash')
-const session = require('express-session')
+const initializePassport = require('./passport-config');
+const flash =require('express-flash');
+const session = require('express-session');
 const passport = require('passport')
+
 
 
 
