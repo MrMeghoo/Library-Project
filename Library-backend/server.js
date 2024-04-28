@@ -1,23 +1,19 @@
-require("dotenv").config()
-const { kMaxLength } = require('buffer');
-const express = require('express')
+const express = require('express');
 const path = require('path');
 const pgp = require('pg-promise')();
-const winston = require('winston')
-const cors = require('cors');const swaggerUI=require('swagger-ui-express');
-const YAML=require('yamljs');
-const swaggerDocument=YAML.load('../Library-frontend/api.yaml');
-const app = express()
-const db = pgp('postgres://corcoding@localhost:5432/postgres')
+const winston = require('winston');
+const cors = require('cors');
+const swaggerUI = require('swagger-ui-express');
+const YAML = require('yamljs');
+const swaggerDocument = YAML.load('../Library-frontend/api.yaml');
 const bcrypt = require('bcrypt');
+const initializePassport = require('./passport-config');
+const flash = require('express-flash');
+const session = require('express-session');
+const passport = require('passport');
 const { name } = require('ejs');
-const initializePassport = require('./passport-config')
-const flash =require('express-flash')
-const session = require('express-session')
-const passport = require('passport')
 
-
-
+require('dotenv').config();
 
 initializePassport(
     passport,
@@ -25,27 +21,25 @@ initializePassport(
     id => db.oneOrNone('SELECT * FROM users WHERE id = $1', id)
 );
 
+const app = express();
+const db = pgp('postgres://corcoding@localhost:5432/postgres');
 
-
-
-app.use(express.static(path.join(__dirname,'../Library-frontend')))
-app.use(flash())
+app.use(cors()); // CORS middleware should be applied first
+app.use(express.static(path.join(__dirname,'../Library-frontend')));
+app.use(flash());
 app.use(session({
-    secret:
-     'mysecret',
-    resave: false, // We wont resave the session variable if nothing is changed
+    secret: 'mysecret',
+    resave: false,
     saveUninitialized: false
 }));
-app.use(passport.initialize())
-app.use(passport.session())
-app.use("api-docs",swaggerUI.serve,swaggerUI.setup(swaggerDocument))
+app.use(passport.initialize());
+app.use(passport.session());
+app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 app.use(express.json());
-app.use(express.urlencoded({ extended: true}));
+app.use(express.urlencoded({ extended: true }));
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname,'views'));
 
-app.use(express.json());
-app.use(cors());
 
 
 const logger = winston.createLogger({
