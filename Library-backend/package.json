@@ -6,7 +6,8 @@
   "scripts": {
     "start": "nodemon server.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon index.js"
+    "dev": "nodemon index.js",
+    "lint": "eslint ."
   },
   "author": "Team 3",
   "license": "ISC",
@@ -30,6 +31,7 @@
     "yamljs": "^0.3.0"
   },
   "devDependencies": {
-    "dotenv": "^16.4.5"
+    "dotenv": "^16.4.5",
+    "eslint": "^8.2.0"
   }
 }
