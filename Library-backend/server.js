@@ -22,7 +22,7 @@ initializePassport(
 );
 
 const app = express();
-const db = pgp('postgres://corcoding@localhost:5432/postgres');
+const db = pgp('postgres://avdxxhsq:Ngu7xpaEW3m4SGx0lWBeOln7iq_WErpE@ziggy.db.elephantsql.com/avdxxhsq');
 
 app.use(cors()); // CORS middleware should be applied first
 app.use(express.static(path.join(__dirname,'../Library-frontend')));
