@@ -1,16 +1,77 @@
+
 /**
  * @swagger
- * components:
- *   schemas:
- *     Book:
- *       type: object
- *       required:
- *         - title
- *         - author
- *         - finished
- *       
+ * /library:
+ *   get:
+ *     summary: Retrieves all books in inventory
+
+ *     responses:
+ *       200:
+ *         description: Retrieved all books
+ *        
+ *       400:
+ *         description: bad request
+ *
  */
 
+/**
+ * @swagger
+ * /library/trending:
+ *   get:
+ *     summary: Retrieves trending books
+
+ *     responses:
+ *       200:
+ *         description: retrieved trending books
+ *        
+ *       400:
+ *         description: bad request
+ *
+ */
+
+/**
+ * @swagger
+ * /library/staffPick:
+ *   get:
+ *     summary: Retrieves staff picks
+
+ *     responses:
+ *       200:
+ *         description: retrieved staff picks
+ *        
+ *       400:
+ *         description: bad request
+ *
+ */
+/**
+ * /**
+ * @swagger
+ * /users:
+ *   get:
+ *     summary: Retrieves users
+
+ *     responses:
+ *       200:
+ *         description: retrieved all users
+ *        
+ *       400:
+ *         description: bad request
+ *
+ */
+/**
+ * @swagger
+ * /quotes:
+ *   get:
+ *     summary: Retrieves all quotes
+
+ *     responses:
+ *       200:
+ *         description: retrieved all users
+ *        
+ *       400:
+ *         description: bad request
+ *
+ */
 /**
  * @swagger
  * /library/signup:
@@ -214,6 +275,24 @@
 *             properties:
 *              checkedOut:
 *               type: boolean
+*     responses:
+*       200:
+*         description: Updated checkout status
+*        
+*       400:
+*         description: bad request
+*/
+
+/**
+* @swagger
+* /quotes/{id}:
+*   delete:
+*     summary: Deletes a quote
+*     parameters:
+*      - name: id
+*        in: path
+*        required: true
+*        description: the title of the book
 *     responses:
 *       200:
 *         description: Updated checkout status

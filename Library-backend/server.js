@@ -6,7 +6,7 @@ const pgp = require('pg-promise')();
 const winston = require('winston')
 const cors = require('cors');const swaggerUI=require('swagger-ui-express');
 const app = express()
-const db = pgp('postgres://postgres:goodworks17@localhost:5432/postgres')
+const db = pgp('postgres://avdxxhsq:Ngu7xpaEW3m4SGx0lWBeOln7iq_WErpE@ziggy.db.elephantsql.com/avdxxhsq')
 const bcrypt = require('bcrypt');
 const { name } = require('ejs');
 const initializePassport = require('./passport-config')
@@ -35,7 +35,10 @@ app.use(session({
     secret:
      'mysecret',
     resave: false, // We wont resave the session variable if nothing is changed
-    saveUninitialized: false
+    saveUninitialized: false,
+    cookie: {
+        maxAge: 60000 * 60
+    }
 }));
 app.use(passport.initialize())
 app.use(passport.session())
@@ -95,6 +98,7 @@ app.all('/*', (req, res, next)=>{
 
 // endpoint to get all books 
 app.get('/library', async (req,res) =>{
+    console.log(req.session)
     // Check to makes sure theres nothing in the body
     if(Object.keys(req.body).length != 0) {
         clientError(req, "Request body is not permitted", 400)
@@ -105,7 +109,7 @@ app.get('/library', async (req,res) =>{
         clientError(req, "Query Parameters do not meet requirements", 400);
         res.status(400).json({error: "Query Parameters do not meet requirements"});
     } else {
-        let allBooks = await db.many('SELECT * FROM bookInventory');
+        let allBooks = await db.any('SELECT * FROM bookInventory');
         res.json(allBooks); 
     }
 })
@@ -122,7 +126,7 @@ app.get('/library/trending', async (req,res) =>{
         clientError(req, "Query Parameters do not meet requirements", 400);
         res.status(400).json({error: "Query Parameters do not meet requirements"});
     } else {
-    let allBooks = await db.many('SELECT * FROM bookInventory WHERE bookInventory.trending = true ORDER BY RANDOM() LIMIT 9');
+    let allBooks = await db.any('SELECT * FROM bookInventory WHERE bookInventory.trending = true ORDER BY RANDOM() LIMIT 9');
     res.json(allBooks); 
     } 
 })
@@ -138,12 +142,12 @@ app.get('/library/staffPick', async (req,res) =>{
         clientError(req, "Query Parameters do not meet requirements", 400);
         res.status(400).json({error: "Query Parameters do not meet requirements"});
     } else {
-    let allBooks = await db.many('SELECT * FROM bookInventory WHERE bookInventory.staffPick = true ORDER BY RANDOM() LIMIT 9');
+    let allBooks = await db.any('SELECT * FROM bookInventory WHERE bookInventory.staffPick = true ORDER BY RANDOM() LIMIT 9');
     res.json(allBooks);  
     }
 })
 
-// endpoint to get quotes
+// endpoint to get users
 app.get('/users', async function(req,res){
     if(Object.keys(req.body).length != 0) {
         clientError(req, "Request body is not permitted", 400)
@@ -199,6 +203,9 @@ app.get('/library/signup', async function(req,res){
         res.status(500).json({msg:'Internal Server error'})
     }
 })
+// app.get('/home', async function(req,res){
+//     res.render("/")
+// })
 
 // ______________________________________________________________________________________________________/*
 // Endpoint: 
@@ -223,11 +230,13 @@ app.post('/library/signup', async function(req,res){
       return res.status(400).json({ msg: "Body Does not meet requirements" });
     }
     else if(!req.body.email.includes("@")){
-        res.status(400).json({message:'Email requires @'})
+        clientError(req,"incorrect email format",400)
+        res.status(400).json({message:'incorrect email format'})
     }
     const hashtedPassword = await bcrypt.hash(req.body.password,10)
 let {email, firstName, lastName, password} = req.body;
 if(!email||!firstName||!lastName||!password){
+    clientError(req,"Invaled fields",400)
     res.status(400).json({msg:'Invalid fields'})
 }
 try{
@@ -248,35 +257,38 @@ app.post('/library/login', passport.authenticate("local",{
     failureFlash: true
 }))
 
-app.post('/library/login', async function(req, res) {
-    const regex = /^[a-zA-Z0-9/,:.@ ]+$/;
-    let obj = req.body;
-    console.log(obj)
-    let arr = [...Object.values(obj)];
-    console.log(arr)
-    if (!arr.every((item) => regex.test(item))) {
-      // checks if any special characters were used
-      clientError(req, "Body does not meet requirements", 400);
-      return res.status(400).json({ msg: "Body Does not meet requirements" });
-    }
-    const { email, password } = req.body;
-    try {
-        const user = await db.oneOrNone('SELECT * FROM users WHERE email = $1', [email]);
-        if (user) {
-            const match = await bcrypt.compare(password, user.password);
-            if (match) {
-                res.send('Login Successful');
-            } else {
-                res.status(400).send('Invalid password');
-            }
-        } else {
-            res.status(400).send('Invalid Credentials');
-        }
-    } catch (error) {
-        console.error('Login error:', error);
-        res.status(500).send('Internal Server Error');
-    }
-});
+// app.post('/library/login', async function(req, res) {
+//     const regex = /^[a-zA-Z0-9/,:.@ ]+$/;
+//     let obj = req.body;
+//     console.log(obj)
+//     let arr = [...Object.values(obj)];
+//     console.log(arr)
+//     if (!arr.every((item) => regex.test(item))) {
+//       // checks if any special characters were used
+//       clientError(req, "Body does not meet requirements", 400);
+//       return res.status(400).json({ msg: "Body Does not meet requirements" });
+//     }
+//     const { email, password } = req.body;
+//     try {
+//         const user = await db.oneOrNone('SELECT * FROM users WHERE email = $1', [email]);
+//         if (user) {
+//             const match = await bcrypt.compare(password, user.password);
+//             if (match) {
+//                 res.send('Login Successful');
+//             } else {
+//                 clientError(req,"Invalid password",400)
+//                 res.status(400).send('Invalid password');
+//             }
+//         } else {
+//             clientError(req,"Invalid Credentials",400)
+//             res.status(400).send('Invalid Credentials');
+//         }
+//     } catch (error) {
+//         clientError(req,"Internal Server error",500)
+//         console.error('Login error:', error);
+//         res.status(500).send('Internal Server Error');
+//     }
+// });
 
 
 
@@ -645,51 +657,148 @@ app.patch('/books/:name', async function(req,res){
         let checkoutBook = await db.query('UPDATE bookInventory SET checkedOut = $1 WHERE name = $2 RETURNING *', [checkedOut,bookName]);
         res.json(checkoutBook)
     }
-    
-
-    
-
-    
 })
 
-//User info delete endpoint
-app.delete('/library/:id', async function(req,res){
-    //take reference from both todo and pokemon project CRUD API's.
-    //Check to ensure a body is not in the request.
-
-    //if a id that does not yet exist is inserted as a query send back a 400 in responce.
-
-    //if no errors are found continue with the code to delete a users account from the database.
     
-})
+    app.delete('/books/:param', async function(req, res){
+        let param = req.params.param;
+        
+        if (!param) {
+            return res.status(400).json({ message: 'Parameter is required' });
+        }
+        
+        // Check if request body exists and is not null
+        if (req.body && Object.keys(req.body).length !== 0) {
+            return res.status(400).json({ message: 'Request body not permitted' });
+        }
+        
+        // Check for special characters in param
+        const specialCharsRegex = /[!@#$%^&*(),.?":{}|<>]/;
+        if (specialCharsRegex.test(param)) {
+            return res.status(400).json({ message: 'Invalid characters in parameter' });
+        }
+        
+        try {
+            if (!isNaN(param)) {  // Check if the parameter is a number (ID)
+                const bookId = parseInt(param);
+                // Check if the ID exists in the database
+                const book = await db.oneOrNone('SELECT * FROM bookInventory WHERE id = $1', [bookId]);
+            if (!book) {
+                    return res.status(404).json({ message: 'Book ID not found' });
+            }
+                await db.result('DELETE FROM bookInventory WHERE id = $1', [bookId]);
+                } else {
+            // Check if the name exists in the database
+            const book = await db.oneOrNone('SELECT * FROM bookInventory WHERE name = $1', [param]);
+            if (!book) {
+                return res.status(404).json({ message: 'Book name not found' });
+            }
+                await db.result('DELETE FROM bookInventory WHERE name = $1', [param]);
+            }
+                res.status(200).json({ message: 'Book deleted successfully' });
+            } catch (error) {
+                console.error(error);
+                res.status(500).json({ message: 'Internal Server Error' });
+            }
+        });
+        
+         
+    
+    // User info delete endpoint by ID or email
+    app.delete('/users/:param', async function(req, res){
+        const param = req.params.param;
+    
+        // if (!param) {
+        //     return res.status(400).json({ message: 'Parameter is required' });
+        // }
+        if (req.body && Object.keys(req.body).length !== 0) {
+            return res.status(400).json({ message: 'Request body not permitted' });
+        }
+        const specialCharsRegex = /[!@#$%^&*(),.?":{}|<>]/;
+        if (specialCharsRegex.test(param)) {
+            return res.status(400).json({ message: 'Invalid characters in parameter' });
+        }
+    
+        try {
+            let deleteUserQuery;
+            let deleteUserParam;
+    
+            // Checks for if param is a number ex: (ID)
+            if (!isNaN(param)) {
+                deleteUserQuery = 'DELETE FROM users WHERE id = $1';
+                deleteUserParam = parseInt(param);
+            } else {
+                deleteUserQuery = 'DELETE FROM users WHERE email = $1';
+                deleteUserParam = param;
+            }
+            // Checking for user in our database
+            const checkUser = await db.oneOrNone('SELECT id FROM users WHERE id = $1 OR email = $2', [deleteUserParam, deleteUserParam]);
+    
+            
+            if (!checkUser) {
+                return res.status(404).json({ message: 'User not found' });
+            }
+            // Delete user
+            await db.result('DELETE FROM users WHERE id = $1', [userId]);
+            
+            await db.result(deleteUserQuery, [deleteUserParam]);
+            
+            res.status(200).json({ message: 'User deleted successfully' });
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({ message: 'Internal Server Error' });
+        }
+    });
+    
+    
+    // Quote delete endpoint
+    app.delete('/quotes/:id', async function(req, res){
+        const quoteId = req.params.id;
+    
+        // Check if ID parameter exists
+        if (!quoteId) {
+            return res.status(400).json({ message: 'ID parameter is required' });
+        }
+    
+        // Check if ID contains special characters
+        const specialCharsRegex = /[!@#$%^&*(),.?":{}|<>]/;
+        if (specialCharsRegex.test(quoteId)) {
+            return res.status(400).json({ message: 'Invalid characters in ID' });
+        }
+    
+        // Check if request body exists and is not null
+        if (req.body && Object.keys(req.body).length !== 0) {
+            return res.status(400).json({ message: 'Request body not permitted' });
+        }
+    
+        try {
+            // Check if quote with the given ID exists
+            const checkQuote = await db.oneOrNone('SELECT id FROM quotes WHERE id = $1', [quoteId]);
+            
+            if (!checkQuote) {
+                return res.status(404).json({ message: 'Quote not found' });
+            }
+    
+            // Delete quote
+            await db.result('DELETE FROM quotes WHERE id = $1', [quoteId]);
+    
+            res.status(200).json({ message: 'Quote deleted successfully' });
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({ message: 'Internal Server Error' });
+        }
+    });
+    
 
-app.delete('/library/:name', async function(req,res){
-    //take reference from both todo and pokemon project CRUD API's.
-    //Check to ensure a body is not in the request.
-
-    //if a name of a book is inserted that is not yet in the database send back a 400 in responce.
-
-    //if no errors are found continue with the code to delete a book from the database.
-
-})
 //FOR SWAGGER DOCUMENTATION
 const options = {
     definition: {
       openapi: "3.1.0",
       info: {
-        title: "LogRocket Express API with Swagger",
+        title: "House of Cards",
         version: "0.1.0",
         description:
-          "This is a simple CRUD API application made with Express and documented with Swagger",
-        license: {
-          name: "MIT",
-          url: "https://spdx.org/licenses/MIT.html",
-        },
-        contact: {
-          name: "LogRocket",
-          url: "https://logrocket.com",
-          email: "info@email.com",
-        },
+          "Library API",
       },
       servers: [
         {
