@@ -20,8 +20,8 @@ function initialize(passport, getUserByEmail, getUserById){
             return done(null, false, { message: "Password incorrect" });
           }
         } catch (e) {
-          console.error(e);
-          return done(e);
+          console.log(e)
+            res.status(500).json({msg:'Internal Server error'})
         }
       }
       //tell passport to use the strategy for authentication. specifying email as the usernameField

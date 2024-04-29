@@ -1,20 +1,21 @@
-require("dotenv").config()
+
 const { kMaxLength } = require('buffer');
 const express = require('express')
 const path = require('path');
 const pgp = require('pg-promise')();
 const winston = require('winston')
 const cors = require('cors');const swaggerUI=require('swagger-ui-express');
-const YAML=require('yamljs');
-const swaggerDocument=YAML.load('../Library-frontend/api.yaml');
 const app = express()
-const db = pgp('postgres://corcoding@localhost:5432/postgres')
+const db = pgp('postgres://postgres:goodworks17@localhost:5432/postgres')
 const bcrypt = require('bcrypt');
 const { name } = require('ejs');
 const initializePassport = require('./passport-config')
 const flash =require('express-flash')
 const session = require('express-session')
 const passport = require('passport')
+bodyParser = require("body-parser"),
+swaggerJsdoc = require("swagger-jsdoc"),
+swaggerUi = require("swagger-ui-express");
 
 
 
@@ -38,7 +39,7 @@ app.use(session({
 }));
 app.use(passport.initialize())
 app.use(passport.session())
-app.use("api-docs",swaggerUI.serve,swaggerUI.setup(swaggerDocument))
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true}));
 app.set('view engine', 'ejs');
@@ -90,7 +91,7 @@ app.all('/*', (req, res, next)=>{
     next()
 })
 
-
+//End Point used to render Login Page
 app.get('/library/login', async function(req,res){
     if(Object.keys(req.body).length > 0){
         res.status(400).json({message:"Body not permitted"})
@@ -103,7 +104,7 @@ app.get('/library/login', async function(req,res){
         }
 
 })
-
+// End point used to render signup page
 app.get('/library/signup', async function(req,res){
     if(Object.keys(req.body).length > 0){
         res.status(400).json({message:"Body not permitted"})
@@ -116,7 +117,18 @@ app.get('/library/signup', async function(req,res){
     }
 })
 
-
+/*
+Endpoint: 
+    POST: Creates a new account for a user
+Body:
+{
+    "email":"",
+    "firstName":"",
+    "lastName":"",
+    "password":""
+}
+All fields required.
+*/
 app.post('/library/signup', async function(req,res){
     const regex = /^[a-zA-Z0-9/,:.@ ]+$/;
     let obj = req.body;
@@ -126,6 +138,9 @@ app.post('/library/signup', async function(req,res){
       // checks if any special characters were used
       clientError(req, "Body does not meet requirements", 400);
       return res.status(400).json({ msg: "Body Does not meet requirements" });
+    }
+    else if(!req.body.email.includes("@")){
+        res.status(400).json({message:'Email requires @'})
     }
     const hashtedPassword = await bcrypt.hash(req.body.password,10)
 let {email, firstName, lastName, password} = req.body;
@@ -139,10 +154,11 @@ res.redirect("/library/login")
 }catch(error){
 if(error.code === "23505"){
     clientError(req, "Email already exist", 400);
-    res.status(400).json({ msg: "Email already exist" })
+    res.redirect('/library/signup')
 }
 }
 })
+// Endpoint used to authenticate users at the login page
 app.post('/library/login', passport.authenticate("local",{
     successRedirect: "/",
     failureRedirect: "/library/login",
@@ -168,10 +184,10 @@ app.post('/library/login', async function(req, res) {
             if (match) {
                 res.send('Login Successful');
             } else {
-                res.status(401).send('Invalid password');
+                res.status(400).send('Invalid password');
             }
         } else {
-            res.status(401).send('Invalid Credentials');
+            res.status(400).send('Invalid Credentials');
         }
     } catch (error) {
         console.error('Login error:', error);
@@ -317,14 +333,16 @@ app.post('/books',async function(req,res){
         }else{
             // if no errors are found the post code to post to the database will go here.
             console.log(req.body)
-            const {
+            let {
                 name,
                 author,
                 yearPublished,
                 genre
+                
             } = req.body
+            genre = [genre]
 
-            let bookRequest = await db.query('INSERT INTO bookInventory(name,author,yearPublished,genre) VALUES($1,$2,$3,$4) RETURNING *', [name,author,yearPublished,genre,checkedOut,image]);
+            let bookRequest = await db.query('INSERT INTO bookInventory(name,author,yearPublished,genre) VALUES($1,$2,$3,$4) RETURNING *', [name,author,yearPublished,genre]);
             res.json(bookRequest)
             
         }
@@ -415,7 +433,7 @@ app.post('/quotes', async function(req,res){
         res.json({error: "Missing quote requirements"})
     }else{
      //Define a regex to ensure quote, author, and book are letters required puctiation and punctuation junctions.
-     let regexQuote = /^['":a-zA-Z0-9.,{}\-\s]+$/
+     let regexQuote = /^['":a-zA-Z0-9.,{}!\-\s]+$/
 
      //Error check for null if any required value is null send back a 400 in response
      if(req.body.quote === null){
@@ -498,7 +516,6 @@ app.patch('/library/:id', async function(req,res){
         //try with catch allows the code to be tested without crashing by running it with try and catching any errors before they crash the server
     }try{
             //if no errors were found continue with the code that will update the database with the correct fields.
-            
             let updateBlacklist = await db.query('UPDATE users SET blackList = $1 WHERE id = $2 RETURNING *', [blackList, id]);
             res.json(updateBlacklist);
 
@@ -525,19 +542,25 @@ app.patch('/books/:name', async function(req,res){
     //if a invalid field is found send back a 400 in response 
     //if there are no invalid fields check the fields one of which will be checkedout ensure that its its not undefined and if it is not undefined ensure that it is a boolean look at todo CRUD for reference.
     //Determine if the checked out inside the req.body is a boolean and if its not send a 400 in response
+    let bookinventory = await db.many('SELECT name from bookinventory')
+    let foundBook = bookinventory.find((title) => title.name === bookName)
+    console.log(bookName)
+   
+
+    console.log(bookinventory)
     if(typeof checkedOut !== 'boolean'){
         clientError(req, "Error has occured whlie Checking Out designated Book", 400);
         res.statusCode = 400;
         res.json({error: "Error has occured whlie Checking Out designated Book"});
-    }try{
+    }
+        
+       if(foundBook == undefined){
+            res.status(400).json({message:'Book not in inventory'})
+        }
+    else{
         //if no errors were found continue with the code that will update the database with the correct fields.
         let checkoutBook = await db.query('UPDATE bookInventory SET checkedOut = $1 WHERE name = $2 RETURNING *', [checkedOut,bookName]);
         res.json(checkoutBook)
-    }catch(error){
-        console.error("Error has occured checking out book", error);
-        clientError(req, "Error has occured checking out book", 400);
-        res.statusCode = 400;
-        res.json({error: "Error has occured checking out book"});
     }
     
 
@@ -566,6 +589,40 @@ app.delete('/library/:name', async function(req,res){
     //if no errors are found continue with the code to delete a book from the database.
 
 })
+//FOR SWAGGER DOCUMENTATION
+const options = {
+    definition: {
+      openapi: "3.1.0",
+      info: {
+        title: "LogRocket Express API with Swagger",
+        version: "0.1.0",
+        description:
+          "This is a simple CRUD API application made with Express and documented with Swagger",
+        license: {
+          name: "MIT",
+          url: "https://spdx.org/licenses/MIT.html",
+        },
+        contact: {
+          name: "LogRocket",
+          url: "https://logrocket.com",
+          email: "info@email.com",
+        },
+      },
+      servers: [
+        {
+          url: "http://localhost:3000",
+        },
+      ],
+    },
+    apis: ["./routes/*.js"],
+  };
+  
+  const specs = swaggerJsdoc(options);
+  app.use(
+    "/api-docs",
+    swaggerUi.serve,
+    swaggerUi.setup(specs, { explorer: true })
+  );
 
 
 app.listen(3000, ()=> {
