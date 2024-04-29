@@ -7,7 +7,9 @@
     "start": "nodemon server.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon index.js",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "render": "echo 'Running npm install' && npm i && echo 'Running lint' && npm run lint && echo 'Running dev' && npm run dev",
+    "build": "echo 'No build step required'"
   },
   "author": "Team 3",
   "license": "ISC",
@@ -35,3 +37,4 @@
     "eslint": "^8.2.0"
   }
 }
+
