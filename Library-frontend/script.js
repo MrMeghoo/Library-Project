@@ -1,3 +1,5 @@
+
+ 
  function submitBooks(){
   console.log("inside submit books")
   //  document.addEventListener('DOMContentLoaded', function () {
@@ -160,4 +162,35 @@ function displaySelect(){
 
 //onclick="location.href='login.html';"
 
+function getBooks(){
+  fetch("http://localhost:3000/library")
+  .then((response)=> response.json())
+  .then((data)=>{
 
+    console.log(data)
+    for(let i=0; i < data.length; i++){
+      
+      let detailedContainer = document.createElement("div");
+      detailedContainer.classList.add("card")
+
+      let bookImage = document.createElement("img");
+      let authortag = document.createElement("p")
+      let booktag = document.createElement("p")
+      let publishedtag = document.createElement("p")
+      let genretag = document.createElement("p")
+
+      authortag.innerText = data[i].author
+      booktag.innerText = data[i].name
+      publishedtag.innerText = data[i].yearPublished
+      genretag.innerText = data[i].genre
+      bookImage.src = data[i].image
+      
+      detailedContainer.appendChild(bookImage);
+      detailedContainer.appendChild(authortag);
+      detailedContainer.appendChild(booktag)
+      detailedContainer.appendChild(publishedtag)
+      detailedContainer.appendChild(genretag)
+      document.getElementById('theBooks').appendChild(detailedContainer);
+    }
+  })
+}
