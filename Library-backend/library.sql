@@ -74,6 +74,7 @@ CREATE TABLE users (
     firstName VARCHAR (50),
     lastName VARCHAR (50),
     age INTEGER,
+    password VARCHAR (250) UNIQUE,
     administrator BOOLEAN,
     blackList BOOLEAN,
     image VARCHAR(200)
