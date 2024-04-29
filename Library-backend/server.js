@@ -5,6 +5,8 @@ const path = require('path');
 const pgp = require('pg-promise')();
 const winston = require('winston')
 const cors = require('cors');const swaggerUI=require('swagger-ui-express');
+const YAML=require('yamljs');
+const swaggerDocument=YAML.load('../Library-frontend/api.yaml');
 const app = express()
 const db = pgp('postgres://avdxxhsq:Ngu7xpaEW3m4SGx0lWBeOln7iq_WErpE@ziggy.db.elephantsql.com/avdxxhsq')
 const bcrypt = require('bcrypt');
@@ -13,11 +15,6 @@ const flash = require('express-flash');
 const session = require('express-session');
 const passport = require('passport');
 const { name } = require('ejs');
-const initializePassport = require('./passport-config')
-const flash =require('express-flash')
-const session = require('express-session')
-const passport = require('passport')
-bodyParser = require("body-parser"),
 swaggerJsdoc = require("swagger-jsdoc"),
 swaggerUi = require("swagger-ui-express");
 
@@ -29,8 +26,7 @@ initializePassport(
     id => db.oneOrNone('SELECT * FROM users WHERE id = $1', id)
 );
 
-const app = express();
-const db = pgp('postgres://avdxxhsq:Ngu7xpaEW3m4SGx0lWBeOln7iq_WErpE@ziggy.db.elephantsql.com/avdxxhsq');
+
 
 app.use(cors()); // CORS middleware should be applied first
 app.use(express.static(path.join(__dirname,'../Library-frontend')));
@@ -39,14 +35,11 @@ app.use(session({
     secret:
      'mysecret',
     resave: false, // We wont resave the session variable if nothing is changed
-    saveUninitialized: false,
-    cookie: {
-        maxAge: 60000 * 60
-    }
+    saveUninitialized: false
 }));
 app.use(passport.initialize())
 app.use(passport.session())
-
+app.use("api-docs",swaggerUI.serve,swaggerUI.setup(swaggerDocument))
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.set('view engine', 'ejs');
@@ -390,58 +383,60 @@ app.post('/books',async function(req,res){
     //Check to see if the inputed tex in the requests body is not a object.
     //Check if the name, author, yearPublished, genre, checkedout, and image are in the requested body thats being posted.
     //Check to ensure name, author, and genre and image are a string which will allow image to be null as well. Chech if checkedout is a boolean and that year published is a number.
-    if (!req.body || typeof req.body !== 'object' ||
-    !('name' in req.body || !(typeof req.body.name !== 'string')) ||
-    !('author' in req.body || !(typeof req.body.author !== 'string')) ||
-    !('yearPublished' in req.body || !(typeof req.body.yearPublished !== 'number')) ||
-    !('genre' in req.body || !(typeof req.body.genre !== 'string'))
-) {
-    console.log(req.body);
-    clientError(req, "Missing Book Information", 400);
-    res.statusCode = 400;
-    res.json({ error: "Missing Book Information" });
-} else {
-    // Define a regex to ensure name, author, and genre are letters only.
-    let regexbookName = /^[a-zA-Z0-9:{}\[\],.-\s]+$/;
-    // Error check for null if any required value is null send back a 400 in response
-    if (req.body.name === null) {
-        clientError(req, "Book name required", 400);
-        res.statusCode = 400;
-        res.json({ error: "Book name required" });
-    } else if (!regexbookName.test(req.body.name)) {
-        clientError(req, "Book name required", 400);
-        res.statusCode = 400;
-        res.json({ error: "Book name required" });
-    } else if (req.body.author === null) {
-        clientError(req, "Author name required", 400);
-        res.statusCode = 400;
-        res.json({ error: "Author name required" });
-    } else if (!regexbookName.test(req.body.author)) {
-        clientError(req, "Author name required", 400);
-        res.statusCode = 400;
-        res.json({ error: "Author name required" });
-    } else if (req.body.yearPublished === null) {
-        clientError(req, "Year published required", 400);
-        res.statusCode = 400;
-        res.json({ error: "Year published required" });
-    } else if (req.body.genre === null) {
-        clientError(req, "Genre is required", 400);
-        res.statusCode = 400;
-        res.json({ error: "Genre is required" });
-    } else if (!regexbookName.test(req.body.genre)) {
-        clientError(req, "Genre is required", 400);
-        res.statusCode = 400;
-        res.json({ error: "Genre is required" });
-    } else {
-        // If no errors are found, the code to post to the database will go here.
-        console.log(req.body);
-        const { name, author, yearPublished, genre } = req.body;
+    if(!req.body||typeof req.body !== 'object'||!('name' in req.body||!(typeof req.body.name !== 'string'||!('author' in req.body||!(typeof req.body.author !== 'string'||!('yearPublished' in req.body||!(typeof req.body.yearPublished !== 'number'||!('genre' in req.body||!(typeof req.body.genre !== 'string'||!('checkedOut' in req.body||(!typeof req.body.checkedOut !== 'boolean'||!('image' in req.body||!(typeof req.body.image !=='string'))))))))))))){
+        console.log(req.body)
+        clientError(req, "Missing Book Information", 400)
+        res.statusCode = 400
+        res.json({error: "Missing Book Information"})
+    }else{
+        //Define a regex to ensure name, author, and genre and image are letters only.
+        let regexbookName = /^[a-zA-Z0-9:{}\[\],.-\s]+$/
+        //Error check for null if any required value is null send back a 400 in responce
+        if(req.body.name === null){
+        clientError(req, "Book name required", 400)
+        res.statusCode = 400
+        res.json({error: "Book name required"})
+        }else if(!regexbookName.test(req.body.name)){
+        clientError(req, "Book name required", 400)
+        res.statusCode = 400
+        res.json({error: "Book name required"})
+        }else if(req.body.author === null){
+            clientError(req, "Author name required", 400)
+            res.statusCode = 400
+            res.json({error: "Author name required"})
+        }else if(!regexbookName.test(req.body.author)){
+            clientError(req, "Author name required", 400)
+            res.statusCode = 400
+            res.json({error: "Author name required"})
+        }else if(req.body.yearPublished === null){
+            clientError(req, "Year published required", 400)
+            res.statusCode = 400
+            res.json({error: "Year published required"})
+        }else if(req.body.genre === null){
+            clientError(req, "Genre is required", 400)
+            res.statusCode = 400
+            res.json({error: "Genre is required"})
+        }else if(!regexbookName.test(req.body.genre)){
+            clientError(req, "Genre is required", 400)
+            res.statusCode = 400
+            res.json({error: "Genre is required"})
+        }else{
+            // if no errors are found the post code to post to the database will go here.
+            console.log(req.body)
+            const {
+                name,
+                author,
+                yearPublished,
+                genre
+            } = req.body
 
-        let bookRequest = await db.query('INSERT INTO bookInventory(name, author, yearPublished, genre) VALUES ($1, $2, $3, $4) RETURNING *', [name, author, yearPublished, genre]);
-        res.json(bookRequest);
+            let bookRequest = await db.query('INSERT INTO bookInventory(name,author,yearPublished,genre) VALUES($1,$2,$3,$4) RETURNING *', [name,author,yearPublished,genre,checkedOut,image]);
+            res.json(bookRequest)
+            
+        }
+        
     }
-}
-
+    
 })
 
 //Book request post
