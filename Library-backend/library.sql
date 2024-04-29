@@ -70,6 +70,7 @@ VALUES
 CREATE TABLE users (
     id SERIAL PRIMARY KEY,
     email VARCHAR (100) UNIQUE,
+    password VARCHAR (100),
     firstName VARCHAR (50),
     lastName VARCHAR (50),
     age INTEGER,
@@ -78,10 +79,10 @@ CREATE TABLE users (
     image VARCHAR(200)
 );
 INSERT INTO users 
-(email, firstName, lastName, age, administrator, blackList, image)
+(email, password, firstName, lastName, age, administrator, blackList, image)
 VALUES 
-('estradagabe1996@gmail.com', 'Gabe', 'Estrada', 27, TRUE, FALSE, null), 
-('diddy@gmail.com', 'Sean', 'Combs', 54, FALSE, TRUE, null);
+('estradagabe1996@gmail.com', '123', 'Gabe', 'Estrada', 27, TRUE, FALSE, null), 
+('diddy@gmail.com', '123', 'Sean', 'Combs', 54, FALSE, TRUE, null);
 
 CREATE TABLE quotes (
     id SERIAL PRIMARY KEY,
@@ -97,3 +98,8 @@ VALUES
 ("Beware; for I am fearless, and therefore powerful.", "Mary Shelley", "Frankenstein"),
 (`Why did you do all this for me?’ he asked. ‘I don’t deserve it. I’ve never done anything for you.’ ‘You have been my friend,’ replied Charlotte. ‘That in itself is a tremendous thing", "Mary Shelley"`, "E.B. White", "Charlotte’s Web");
 
+CREATE TABLE request (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR (150),
+    author VARCHAR (50)
+);
