@@ -543,9 +543,6 @@ app.patch('/books/:name', async function(req,res){
         res.json({error: "Error has occured checking out book"});
     }
     
-
-    
-
     
 })
 
