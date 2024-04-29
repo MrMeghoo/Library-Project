@@ -547,7 +547,7 @@ app.patch('/books/:name', async function(req,res){
 })
 
 //User info delete endpoint
-aapp.delete('/books/:param', async function(req, res){
+app.delete('/books/:param', async function(req, res){
     let param = req.params.param;
     
     if (!param) {
