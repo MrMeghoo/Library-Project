@@ -194,3 +194,29 @@ function getBooks(){
     }
   })
 }
+
+// necessary for forgot password function
+function submitForm(event) {
+  event.preventDefault(); // Prevent the default form submission
+
+  const form = event.target; // Get the form element
+  const formData = new FormData(form); // Create FormData object from form data
+  const messageElement = document.getElementById('message'); // Get the message element
+
+  fetch('forgot-password', {
+      method: 'POST',
+      body: formData
+  })
+  .then(response => response.text()) // Parse response as text
+  .then(message => {
+      messageElement.textContent = message; // Display the returned message
+  })
+  .catch(error => {
+      console.error('Error:', error);
+      messageElement.textContent = 'An error occurred while processing your request.';
+  });
+}
+
+
+let knownPasswords = [];
+let allEmails = [];
