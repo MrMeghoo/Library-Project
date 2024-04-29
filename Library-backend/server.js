@@ -8,7 +8,7 @@ const cors = require('cors');const swaggerUI=require('swagger-ui-express');
 const YAML=require('yamljs');
 const swaggerDocument=YAML.load('../Library-frontend/api.yaml');
 const app = express()
-const db = pgp('postgres://corcoding@localhost:5432/postgres')
+const db = pgp('postgres://avdxxhsq:Ngu7xpaEW3m4SGx0lWBeOln7iq_WErpE@ziggy.db.elephantsql.com/avdxxhsq')
 const bcrypt = require('bcrypt');
 const { name } = require('ejs');
 const initializePassport = require('./passport-config')
@@ -90,6 +90,89 @@ app.all('/*', (req, res, next)=>{
     next()
 })
 
+// ___________________________________________________________________________________________
+
+// endpoint to get all books 
+app.get('/library', async (req,res) =>{
+    // Check to makes sure theres nothing in the body
+    if(Object.keys(req.body).length != 0) {
+        clientError(req, "Request body is not permitted", 400)
+        res.status(400).json({error: "Request body is not permitted"});
+    } 
+    // check to make sure theres queries 
+    else if(Object.keys(req.query).length != 0){ 
+        clientError(req, "Query Parameters do not meet requirements", 400);
+        res.status(400).json({error: "Query Parameters do not meet requirements"});
+    } else {
+        let allBooks = await db.many('SELECT * FROM bookInventory');
+        res.json(allBooks); 
+    }
+})
+
+// endpoint to get trending books
+app.get('/library/trending', async (req,res) =>{
+    
+    if(Object.keys(req.body).length != 0) {
+        clientError(req, "Request body is not permitted", 400)
+        res.status(400).json({error: "Request body is not permitted"});
+    } 
+    // check to make sure theres queries 
+    else if(Object.keys(req.query).length != 0){ 
+        clientError(req, "Query Parameters do not meet requirements", 400);
+        res.status(400).json({error: "Query Parameters do not meet requirements"});
+    } else {
+    let allBooks = await db.many('SELECT * FROM bookInventory WHERE bookInventory.trending = true ORDER BY RANDOM() LIMIT 9');
+    res.json(allBooks); 
+    } 
+})
+
+// endpoint to get rando staff picks 
+app.get('/library/staffPick', async (req,res) =>{
+    if(Object.keys(req.body).length != 0) {
+        clientError(req, "Request body is not permitted", 400)
+        res.status(400).json({error: "Request body is not permitted"});
+    } 
+    // check to make sure theres queries 
+    else if(Object.keys(req.query).length != 0){ 
+        clientError(req, "Query Parameters do not meet requirements", 400);
+        res.status(400).json({error: "Query Parameters do not meet requirements"});
+    } else {
+    let allBooks = await db.many('SELECT * FROM bookInventory WHERE bookInventory.staffPick = true ORDER BY RANDOM() LIMIT 9');
+    res.json(allBooks);  
+    }
+})
+
+// endpoint to get quotes
+app.get('/users', async function(req,res){
+    if(Object.keys(req.body).length != 0) {
+        clientError(req, "Request body is not permitted", 400)
+        res.status(400).json({error: "Request body is not permitted"});
+    } 
+    // check to make sure theres queries 
+    else if(Object.keys(req.query).length != 0){ 
+        clientError(req, "Query Parameters do not meet requirements", 400);
+        res.status(400).json({error: "Query Parameters do not meet requirements"});
+    } else {
+    let allUsers = await db.many('SELECT * FROM users');
+    res.json(allUsers);
+    }
+})
+
+// endpoint to get quotes
+app.get('/quotes', async function(req,res){
+    if(Object.keys(req.body).length != 0) {
+        clientError(req, "Request body is not permitted", 400)
+        res.status(400).json({error: "Request body is not permitted"});
+    } 
+    // check to make sure theres queries 
+    else if(Object.keys(req.query).length != 0){ 
+        clientError(req, "Query Parameters do not meet requirements", 400);
+        res.status(400).json({error: "Query Parameters do not meet requirements"});
+    } else {
+    let allQuotes = await db.many('SELECT * FROM quotes');
+    res.json(allQuotes);
+    }
+})
 
 app.get('/library/login', async function(req,res){
     if(Object.keys(req.body).length > 0){
@@ -116,7 +199,7 @@ app.get('/library/signup', async function(req,res){
     }
 })
 
-
+// ______________________________________________________________________________________________________
 app.post('/library/signup', async function(req,res){
     const regex = /^[a-zA-Z0-9/,:.@ ]+$/;
     let obj = req.body;
