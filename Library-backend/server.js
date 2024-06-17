@@ -8,6 +8,7 @@ const cors = require('cors');const swaggerUI=require('swagger-ui-express');
 const YAML=require('yamljs');
 const swaggerDocument=YAML.load('../Library-frontend/api.yaml');
 const app = express()
+const bodyParser = require('body-parser');
 const db = pgp('postgres://avdxxhsq:Ngu7xpaEW3m4SGx0lWBeOln7iq_WErpE@ziggy.db.elephantsql.com/avdxxhsq')
 const bcrypt = require('bcrypt');
 const initializePassport = require('./passport-config');
@@ -15,6 +16,7 @@ const flash = require('express-flash');
 const session = require('express-session');
 const passport = require('passport');
 const { name } = require('ejs');
+const registeredEmails = ['estradagabe1996@gmail.com', 'diddy@gmail.com'];
 swaggerJsdoc = require("swagger-jsdoc"),
 swaggerUi = require("swagger-ui-express");
 
@@ -563,7 +565,29 @@ app.post('/quotes', async function(req,res){
 
 }
 
-    
+// endpoiynt for handling forgot password requests
+// Endpoint for handling forgot password requests
+app.post('/forgotpassword', async (req, res) => {
+    // Extract email from request body
+    const { email } = req.body;
+
+    try {
+        // Query the database is gonna check for our existing emails
+        const user = await db.oneOrNone('SELECT * FROM users WHERE email = $1', email);
+
+        if (user) {
+            // If email works a message for reset will be sent
+            res.status(200).send('Password reset instructions sent to your email.');
+        } else {
+            // Email isn't found in the database
+            res.status(400).send('Email not found. Please enter a valid email address.');
+        }
+    } catch (error) {
+        console.error('Error checking email:', error);
+        res.status(500).send('Internal Server Error');
+    }
+});
+
 
     
 
